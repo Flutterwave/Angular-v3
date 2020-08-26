@@ -1,0 +1,7 @@
+<button
+
+  style="{{style}}"
+  [ngClass]="className ? className : 'flutterwave-pay-button' "
+  (click)="makePayment()">
+  {{text || 'Pay'}}
+</button>

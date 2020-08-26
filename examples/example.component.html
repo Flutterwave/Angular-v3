@@ -1,0 +1,24 @@
+<flutterwave-make-payment
+  (callback)="makePaymentCallback($event)"
+  (close)="cancelledPayment()" [customer]="{name: 'Demo Customer  Name',
+email: 'customer@mail.com',
+phone_number: '08184505144'
+}" [customizations]="{ title: 'Customization Title' , description: 'Customization Description'  , logo : 'https://flutterwave.com/images/logo-colored.svg'   }"
+  [meta]="{  'counsumer_id': '7898' , 'consumer_mac'  : 'kjs9s8ss7dd'   }"
+  tx_ref="XXXXXXXXXXXXX"
+  amount='90000'
+  currency='NGN' payment_options="card"
+  public_key="FLWPUBK_TEST-0b04581c8d73fd08d5c720e1e0f803b4-X"
+  redirect_url=""
+  text="Pay Now"
+
+
+  className="pay-button"
+
+
+  style="background-color: orange"
+
+></flutterwave-make-payment>
+
+
+<button (click)="payViaService()">Pay Via Service</button>
