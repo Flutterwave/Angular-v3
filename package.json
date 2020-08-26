@@ -1,6 +1,6 @@
 {
   "name": "flutterwave-angular-v3",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Official AngularJS Library for Flutterwave v3 payment APIs",
   "author": "Flutterwave Developers",
   "repository": {

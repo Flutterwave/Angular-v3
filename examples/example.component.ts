@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {Flutterwave, InlinePaymentOptions, PaymentSuccessResponse} from "flutterwave-v3-angular"
+import {Flutterwave, InlinePaymentOptions, PaymentSuccessResponse} from "flutterwave-angular-v3"
+
 
 
 @Component({
