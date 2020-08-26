@@ -36,7 +36,7 @@ Flutterwave version 3 API keys
 
 ```
 
-### Installing
+### Installation
 
 
 Install the SDK 
