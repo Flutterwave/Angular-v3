@@ -2,7 +2,7 @@
     <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
 </p>
 
-## 📝 Table of Contents
+## Table of Contents
 
 - [About](#about)
 - [Getting Started](#getting-started)
@@ -20,7 +20,7 @@ Flutterwave official  Angular library to accept payment via  card , USSD, QrCode
 
 <a id="getting-started"></a>
 
-## 🏁 Getting Started
+## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 See [references](#references) for links to dashboard and API documentation.
@@ -52,7 +52,7 @@ $ yarn  add  flutterwave-v3-angular
 
 <a id="usage"></a>
 
-## 🔧 Usage
+## Usage
 
 Include the Flutterwave V3 script tag to the index.html file
 ```html
@@ -219,13 +219,13 @@ export class AppComponent {
 
 
 <a id="deployment"></a>
-## 🚀 Deployment
+## Deployment
 
 - Switch to Live Mode on the Dashboard settings page
 - Use the Live Public API key 
 
 <a id="build-tools"></a>
-## ⛏️ Built Using
+## Built Using
 
 - [Angular CLI](https://cli.angular.io/) 
 - [Typescript](https://www.typescriptlang.org/)
