@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {Flutterwave, InlinePaymentOptions, PaymentSuccessResponse} from "flutterwave-angular-v3"
 
 
-
 @Component({
   selector: 'example-component',
   templateUrl: 'example.component.html',
