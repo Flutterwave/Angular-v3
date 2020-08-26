@@ -6,7 +6,6 @@
 - [Running tests](#test)
 - [Deployment](#deployment)
 - [Built Using](#build-tools)
-- [Contributors](#contributors)
 - [References](#references)
 
 <a id="about"></a>
@@ -23,8 +22,6 @@ See [references](#references) for links to dashboard and API documentation.
 
 
 ### Prerequisites
-
-
 
 ```
 Node version >= 6.9.x and npm >= 3.x.x
@@ -231,12 +228,6 @@ export class AppComponent {
 - [Typescript](https://www.typescriptlang.org/)
 - [Angular](https://angular.io/)
 
-<a id="contributors"></a>
-## ✍️ Contributors
-
-- [@ArtOlamilekan](https://twitter.com/artolamilekan)
-
-See also the list of [contributors](https://github.com/flutterwave/flutterwave-angular-v3/contributors) who participated in this project.
 
 <a id="references"></a>
 ## 🎉 Flutterwave API  References
