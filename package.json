@@ -1,11 +1,11 @@
 {
   "name": "flutterwave-angular-v3",
-  "version": "1.0.4",
-  "description": "Official AngularJS Library for Flutterwave v3 payment APIs - card , USSD, QrCode etc.",
-  "author": "Flutterwave Developers",
+  "version": "1.0.5",
+  "description": "Flutterwave official v3  Angular library to accept payment via  card , USSD, QrCode etc.",
+  "author": "Flutterwave",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Flutterwave/Flutterwave-Angular-v3.git"
+    "url": "https://github.com/Flutterwave/Flutterwave-Angular-v3"
   },
   "homepage": "https://github.com/Flutterwave/Flutterwave-Angular-v3",
   "keywords": [
@@ -24,6 +24,7 @@
     "e2e": "ng e2e",
     "packagr": "npx ng-packagr -p ng-package.json",
     "pack": "cd dist && npm pack"
+
   },
   "private": false,
   "dependencies": {
@@ -60,12 +61,5 @@
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": ">=2.3.3"
-  },
-  "bugs": {
-    "url": "https://github.com/Flutterwave/Flutterwave-Angular-v3/issues"
-  },
-  "main": "karma.conf.js",
-  "directories": {
-    "example": "examples"
   }
 }

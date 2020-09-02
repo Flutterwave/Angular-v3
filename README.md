@@ -1,8 +1,4 @@
-<p align="center">
-    <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
-</p>
-
-## Table of Contents
+## 📝 Table of Contents
 
 - [About](#about)
 - [Getting Started](#getting-started)
@@ -19,15 +15,13 @@ Flutterwave official  Angular library to accept payment via  card , USSD, QrCode
 
 <a id="getting-started"></a>
 
-## Getting Started
+## 🏁 Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 See [references](#references) for links to dashboard and API documentation.
 
 
 ### Prerequisites
-
-
 
 ```
 Node version >= 6.9.x and npm >= 3.x.x
@@ -36,7 +30,7 @@ Flutterwave version 3 API keys
 
 ```
 
-### Installation
+### Installing
 
 
 Install the SDK 
@@ -51,7 +45,7 @@ $ yarn  add  flutterwave-angular-v3
 
 <a id="usage"></a>
 
-## Usage
+## 🔧 Usage
 
 Include the Flutterwave V3 script tag to the index.html file
 ```html
@@ -87,7 +81,7 @@ Include the Flutterwave V3 script tag to the index.html file
 Import FlutterwaveModule to the  app root module
 
 ```javascript
-import FlutterwaveModule from "flutterwave-angular-v3"
+import { FlutterwaveModule } from "flutterwave-angular-v3"
 
 @NgModule({
   declarations: [
@@ -104,13 +98,15 @@ import FlutterwaveModule from "flutterwave-angular-v3"
 
 Use as component. Method 1 
 
-```javascript
-//Method 1: Pass  in payment parameters individually as component attributes
+```html
+<!--
+Method 1: Pass  in payment parameters individually as component attributes
+-->
 
 <flutterwave-make-payment
   public_key="FLWPUBK_TEST-*************"
   tx_ref="25673*******"
-  amount=90000
+  amount=9000
   currency='NGN'
   payment_options="card,ussd"
   redirect_url=""
@@ -127,9 +123,11 @@ Use as component. Method 1
 
 Use as component. Method 2
 
-```javascript
+```html
 
-//Method 2: Pass in the payment parameters as an object to the component 'data' attribute
+<!--
+Method 2: Pass in the payment parameters as an object to the component 'data' attribute
+-->
 
 <flutterwave-make-payment [data]="{
 public_key: 'FLWPUBK_TEST-***********',
@@ -218,13 +216,13 @@ export class AppComponent {
 
 
 <a id="deployment"></a>
-## Deployment
+## 🚀 Deployment
 
 - Switch to Live Mode on the Dashboard settings page
 - Use the Live Public API key 
 
 <a id="build-tools"></a>
-## Built Using
+## ⛏️ Built Using
 
 - [Angular CLI](https://cli.angular.io/) 
 - [Typescript](https://www.typescriptlang.org/)

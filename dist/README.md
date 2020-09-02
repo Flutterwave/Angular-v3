@@ -81,7 +81,7 @@ Include the Flutterwave V3 script tag to the index.html file
 Import FlutterwaveModule to the  app root module
 
 ```javascript
-import FlutterwaveModule from "flutterwave-angular-v3"
+import { FlutterwaveModule } from "flutterwave-angular-v3"
 
 @NgModule({
   declarations: [
