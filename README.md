@@ -1,4 +1,4 @@
-## 📝 Table of Contents
+## Table of Contents
 
 - [About](#about)
 - [Getting Started](#getting-started)
@@ -9,13 +9,14 @@
 - [References](#references)
 
 <a id="about"></a>
+
 ## About
 
 Flutterwave official  Angular library to accept payment via  card , USSD, QrCode etc.
 
 <a id="getting-started"></a>
 
-## 🏁 Getting Started
+## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 See [references](#references) for links to dashboard and API documentation.
@@ -45,7 +46,7 @@ $ yarn  add  flutterwave-angular-v3
 
 <a id="usage"></a>
 
-## 🔧 Usage
+## Usage
 
 Include the Flutterwave V3 script tag to the index.html file
 ```html
@@ -216,13 +217,15 @@ export class AppComponent {
 
 
 <a id="deployment"></a>
-## 🚀 Deployment
+
+## Deployment
 
 - Switch to Live Mode on the Dashboard settings page
 - Use the Live Public API key 
 
 <a id="build-tools"></a>
-## ⛏️ Built Using
+
+##  Built Using
 
 - [Angular CLI](https://cli.angular.io/) 
 - [Typescript](https://www.typescriptlang.org/)
@@ -230,7 +233,8 @@ export class AppComponent {
 
 
 <a id="references"></a>
-## 🎉 Flutterwave API  References
+
+## Flutterwave API  References
 
 - [Flutterwave API Doc](https://developer.flutterwave.com/docs)
 - [Flutterwave Inline Payment Doc](https://developer.flutterwave.com/docs/flutterwave-inline)
