@@ -2,7 +2,9 @@
     <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
 </p>
 
-<h3>Flutterwave v3 Angular Library</h3>
+<p align="center">
+  <h2>Flutterwave v3 Angular Library</h2>
+</p>
 
 ## Table of Contents
 
