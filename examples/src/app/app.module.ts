@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import {FlutterwaveModule} from "flutterwave-angular-v3"
+import {FlutterwaveModule}  from "flutterwave-angular-v3"   ;
 
 
 @NgModule({

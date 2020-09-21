@@ -1,6 +1,5 @@
-
 <flutterwave-make-payment
-  public_key="{{publicKey}}"
+  [public_key]="publicKey"
   amount='10'
   currency='NGN'
   payment_options="card"
@@ -10,18 +9,17 @@
   [customizations]="customizations"
   [meta]="meta"
   [tx_ref]="generateReference()"
-
   (callback)="makePaymentCallback($event)"
   (close)="closedPaymentModal()"
 ></flutterwave-make-payment>
 
-
-
 <flutterwave-make-payment
- [data]="paymentData"
+  [data]="paymentData"
 ></flutterwave-make-payment>
+
+
 
 <button (click)="payViaService()">Pay Via Service</button>
 
 
-
+<button (click)="payViaPromise()">Pay Via Promise</button>
