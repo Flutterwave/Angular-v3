@@ -14,16 +14,12 @@ jobs:
     steps:
       - name: Checkout
       - uses: actions/checkout@v2
-
       - name: Setup Node
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-
       - run: npm ci
-      
       - run: npm run lint
-
       - name: build package
       - run: npm run build
 
@@ -33,14 +29,12 @@ jobs:
     steps:
       - name: Checkout
       - uses: actions/checkout@v2
-
       - name: Setup Node
       - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-
       - name: deploy
       - run: npm publish
         working-directory: ./dist
