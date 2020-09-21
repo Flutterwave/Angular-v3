@@ -4,11 +4,52 @@
 	(factory((global['flutterwave-angular-v3'] = {}),global.ng.core,global.ng.common));
 }(this, (function (exports,core,common) { 'use strict';
 
+/**
+ * Payment data object
+ * \@property public_key {String}
+ * \@property callbackContext {Object}  The context of the component or service that has the callback method. The value must always be 'this'. Using any other value might lead to error.
+ * \@property tx_ref {String}
+ * \@property amount {Number}
+ * \@property currency {String}
+ * \@property payment_options {String}
+ * \@property redirect_url {String}
+ * \@property meta {Object}
+ * \@property customer {Object}
+ * \@property customizations {Object}
+ * \@property callback {Function}
+ * \@property onclose {Function}
+ */
 var InlinePaymentOptions = (function () {
     function InlinePaymentOptions() {
     }
     return InlinePaymentOptions;
 }());
+/**
+ * Async Payment data object
+ * \@property public_key {String}
+ * \@property tx_ref {String}
+ * \@property amount {Number}
+ * \@property currency {String}
+ * \@property payment_options {String}
+ * \@property meta {Object}
+ * \@property customer {Object}
+ * \@property customizations {Object}
+ */
+var AsyncPaymentOptions = (function () {
+    function AsyncPaymentOptions() {
+    }
+    return AsyncPaymentOptions;
+}());
+/**
+ * Payment Response
+ * \@property amount {String}
+ * \@property currency {Number}
+ * \@property customer {Object}
+ * \@property flw_ref {String}
+ * \@property status {String}
+ * \@property transaction_id {String}
+ * \@property tx_ref {String}
+ */
 var PaymentSuccessResponse = (function () {
     function PaymentSuccessResponse() {
     }
@@ -17,16 +58,6 @@ var PaymentSuccessResponse = (function () {
 var MakePaymentComponent = (function () {
     function MakePaymentComponent() {
         this.callback = new core.EventEmitter();
-        /*
-          callBack interface
-          amount: 90000
-         currency: "NGN"
-         customer: {name: "Demo Customer  Name", email: "customer@mail.com", phone_number: "08184505144"}
-         flw_ref: "FLW-MOCK-e8fbce1a9441489c03f997a55404ff4d"
-         status: "successful"
-         transaction_id: 1468479
-         tx_ref: "hshbnsfshhs"
-         */
         this.close = new core.EventEmitter();
         this.customer_defaults = {
             email: "",
@@ -63,26 +94,42 @@ var MakePaymentComponent = (function () {
         this.customer = this.customer || {};
         this.meta = this.meta || {};
         this.customizations = this.customizations || {};
-        this.inlinePaymentOptions = this.data ? this.data : {
-            public_key: this.public_key,
-            tx_ref: this.tx_ref,
-            amount: this.amount,
-            currency: this.currency || 'NGN',
-            payment_options: this.payment_options || "card, mobilemoney, ussd",
-            redirect_url: this.redirect_url || '',
-            meta: Object.assign({}, this.meta_defaults, this.meta),
-            customer: Object.assign({}, this.customer_defaults, this.customer),
-            callback: function (response) { return _this.callback.emit(response); },
-            onclose: function () { return _this.close.emit(); },
-            customizations: Object.assign({}, this.customer_defaults, this.customizations)
-        };
+        if (this.data) {
+            this.inlinePaymentOptions = Object.assign({}, this.data, { callback: function (response) {
+                    _this.data.callbackContext[_this.data.callback.name](response);
+                }, onclose: function () {
+                    try {
+                        _this.data.callbackContext[_this.data.onclose.name]();
+                    }
+                    catch (e) {
+                    }
+                } });
+        }
+        else {
+            this.inlinePaymentOptions = {
+                callbackContext: null,
+                public_key: this.public_key,
+                tx_ref: this.tx_ref,
+                amount: this.amount,
+                currency: this.currency || 'NGN',
+                payment_options: this.payment_options || "card, mobilemoney, ussd",
+                redirect_url: this.redirect_url || '',
+                meta: Object.assign({}, this.meta_defaults, this.meta),
+                customer: Object.assign({}, this.customer_defaults, this.customer),
+                callback: function (response) {
+                    _this.callback.emit(response);
+                },
+                onclose: function () { return _this.close.emit(); },
+                customizations: Object.assign({}, this.customizations_defaults, this.customizations)
+            };
+        }
     };
     return MakePaymentComponent;
 }());
 MakePaymentComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'flutterwave-make-payment',
-                template: "\n    <button\n\n      style=\"{{style}}\"\n      [ngClass]=\"className ? className : 'flutterwave-pay-button' \"\n      (click)=\"makePayment()\">\n      {{text || 'Pay'}}\n    </button>\n  ",
+                template: "\n    <button\n      style=\"{{style}}\"\n      [ngClass]=\"className ? className : 'flutterwave-pay-button' \"\n      (click)=\"makePayment()\">\n      {{text || 'Pay'}}\n    </button>\n  ",
                 styles: ["\n    .flutterwave-pay-button{\n      background-color: #f5a623;\n      border-radius: 4px;\n      border-color: #f5a623;\n      -webkit-box-shadow: 0 2px 3px 0 #ccc;\n              box-shadow: 0 2px 3px 0 #ccc;\n      color: #fff;\n      display: block;\n      font-size: 12px;\n      font-weight: 700;\n      padding: 14px 22px;\n      text-align: center;\n      text-decoration: none;\n      -webkit-transition: all .3s ease-in-out;\n      transition: all .3s ease-in-out;\n\n    }\n  "]
             },] },
 ];
@@ -115,7 +162,39 @@ var Flutterwave = (function () {
      * @return {?}
      */
     Flutterwave.prototype.inlinePay = function (paymentData) {
-        FlutterwaveCheckout(paymentData);
+        var /** @type {?} */ data = Object.assign({}, paymentData, { callback: function (response) {
+                paymentData.callbackContext[paymentData.callback.name](response);
+            }, onclose: function () {
+                try {
+                    paymentData.callbackContext[paymentData.onclose.name]();
+                }
+                catch (e) {
+                }
+            } });
+        FlutterwaveCheckout(data);
+    };
+    /**
+     * @param {?} paymentData
+     * @return {?}
+     */
+    Flutterwave.prototype.asyncInlinePay = function (paymentData) {
+        return new Promise(function (resolve, reject) {
+            paymentData = Object.assign({}, paymentData, { callback: function ($event) {
+                    resolve($event);
+                }, onclose: function () { return resolve('closed'); } });
+            FlutterwaveCheckout(paymentData);
+        });
+    };
+    /**
+     *
+     * @param {?=} waitDuration {Number} Seconds before closing payment modal
+     * @return {?}
+     */
+    Flutterwave.prototype.closePaymentModal = function (waitDuration) {
+        if (waitDuration === void 0) { waitDuration = 0; }
+        setTimeout(function () {
+            document.getElementsByName('checkout')[0].setAttribute('style', "z-index: -1; opacity: 0");
+        }, waitDuration * 1000);
     };
     return Flutterwave;
 }());
@@ -128,6 +207,12 @@ Flutterwave.decorators = [
 Flutterwave.ctorParameters = function () { return []; };
 var FlutterwaveModule = (function () {
     function FlutterwaveModule() {
+        var inlineSdk = "https://checkout.flutterwave.com/v3.js";
+        var script = document.createElement('script');
+        script.src = inlineSdk;
+        if (!document.querySelector("[src=\"" + inlineSdk + "\"]")) {
+            document.body.appendChild(script);
+        }
     }
     return FlutterwaveModule;
 }());
@@ -150,6 +235,7 @@ exports.FlutterwaveModule = FlutterwaveModule;
 exports.Flutterwave = Flutterwave;
 exports.InlinePaymentOptions = InlinePaymentOptions;
 exports.PaymentSuccessResponse = PaymentSuccessResponse;
+exports.AsyncPaymentOptions = AsyncPaymentOptions;
 exports.MakePaymentComponent = MakePaymentComponent;
 
 Object.defineProperty(exports, '__esModule', { value: true });
