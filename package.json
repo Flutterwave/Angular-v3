@@ -26,9 +26,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "files": [
-    "dist/*"
-  ],
   "private": false,
   "dependencies": {
     "@angular/animations": ">=4.0.0",
