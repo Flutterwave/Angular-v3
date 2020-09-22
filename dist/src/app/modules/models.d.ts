@@ -1,5 +1,3 @@
-
-
 /**
  * Payment data object
  * @typedef {Object}
@@ -19,24 +17,22 @@
  * @property callback {Function}
  * @property onclose {Function}
  */
-  class  InlinePaymentOptions  {
-  public_key: string;
-  callbackContext: object;
-  tx_ref: string;
-  amount: number;
-  currency?: string;
-  country?: string;
-  authorization?: object | string;
-  payment_options?: string;
-  redirect_url?: string;
-  meta ?: any;
-  customer?: object;
-  customizations?: object;
-  callback: (response: object) => void;
-  onclose?: () => void;
+declare class InlinePaymentOptions {
+    public_key: string;
+    callbackContext: object;
+    tx_ref: string;
+    amount: number;
+    currency?: string;
+    country?: string;
+    authorization?: object | string;
+    payment_options?: string;
+    redirect_url?: string;
+    meta?: any;
+    customer?: object;
+    customizations?: object;
+    callback: (response: object) => void;
+    onclose?: () => void;
 }
-
-
 /**
  * Async Payment data object
  * @typedef {Object}
@@ -49,22 +45,19 @@
  * @property customer {Object}
  * @property customizations {Object}
  */
-class  AsyncPaymentOptions {
-  public_key: string;
-  tx_ref: string;
-  amount: number;
-  currency?: string;
-  country?: string;
-  authorization?: object | string;
-  payment_options?: string;
-  meta ?: any;
-  customer?: object;
-  customizations?: object;
+declare class AsyncPaymentOptions {
+    public_key: string;
+    tx_ref: string;
+    amount: number;
+    currency?: string;
+    country?: string;
+    authorization?: object | string;
+    payment_options?: string;
+    meta?: any;
+    customer?: object;
+    customizations?: object;
 }
-
-
-declare function  FlutterwaveCheckout(any)
-
+declare function FlutterwaveCheckout(any: any): any;
 /**
  * Payment Response
  * @typedef {Object}
@@ -76,20 +69,13 @@ declare function  FlutterwaveCheckout(any)
  * @property transaction_id {String}
  * @property tx_ref {String}
  */
- class  PaymentSuccessResponse {
+declare class PaymentSuccessResponse {
     amount?: number;
     currency?: string;
     customer?: object;
     flw_ref?: string;
     status?: string;
     transaction_id?: number;
-    tx_ref?: string
-  }
-
-
-  export {
-    InlinePaymentOptions,
-    AsyncPaymentOptions,
-    FlutterwaveCheckout,
-    PaymentSuccessResponse
-  }
+    tx_ref?: string;
+}
+export { InlinePaymentOptions, AsyncPaymentOptions, FlutterwaveCheckout, PaymentSuccessResponse };

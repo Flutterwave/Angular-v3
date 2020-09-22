@@ -30,6 +30,5 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm publish
-        working-directory: ./dist
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}

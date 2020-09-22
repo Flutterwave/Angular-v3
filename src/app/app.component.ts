@@ -7,9 +7,9 @@ import {InlinePaymentOptions, PaymentSuccessResponse} from './modules/models';
   template: `<button (click)="makePayment()" >Pay</button>`,
 })
 export class AppComponent {
-  title = 'app';
 
-  paymentData : InlinePaymentOptions =  {
+
+  paymentData: InlinePaymentOptions = {
     public_key: 'FLWPUBK_TEST-XXXXX-X',
     tx_ref: '8*********',
     amount: 9000,
@@ -31,19 +31,19 @@ export class AppComponent {
       logo : 'https://flutterwave.com/images/logo-colored.svg'
     } ,
     callback:  this.makePaymentCallback ,
-    onclose:  this.cancelledPayment
-  }
+    onclose:  this.cancelledPayment,
+    callbackContext: this
+  };
 
 
   constructor(private flutterwave: Flutterwave ) {
   }
 
-  makePayment(){
-    this.flutterwave.inlinePay(this.paymentData)
-  }
+
+  makePayment() { this.flutterwave.inlinePay(this.paymentData)}
 
   makePaymentCallback(response: PaymentSuccessResponse): void {
-    console.log("Payment callback", response);
+    console.log('Payment callback', response);
   }
   cancelledPayment(): void {
     console.log('payment is closed');

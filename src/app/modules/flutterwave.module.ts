@@ -11,4 +11,16 @@ import {Flutterwave} from './flutterwave.service';
   providers: [Flutterwave],
   exports: [MakePaymentComponent]
 })
-export class FlutterwaveModule { }
+export class FlutterwaveModule {
+  constructor() {
+
+      const inlineSdk = 'https://checkout.flutterwave.com/v3.js';
+      const script = document.createElement('script');
+      script.src = inlineSdk;
+      if (!document.querySelector(`[src="${inlineSdk}"]`)) {
+        document.body.appendChild(script)
+      }
+
+
+  }
+}

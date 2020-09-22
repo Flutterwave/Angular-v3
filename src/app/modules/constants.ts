@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://api.flutterwave.com/v3'
+export const BASE_URL = 'https://api.flutterwave.com/v3';
