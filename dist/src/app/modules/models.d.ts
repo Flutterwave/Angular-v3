@@ -19,7 +19,7 @@
  */
 declare class InlinePaymentOptions {
     public_key: string;
-    callbackContext: object;
+    callbackContext?: object;
     tx_ref: string;
     amount: number;
     currency?: string;
@@ -30,7 +30,7 @@ declare class InlinePaymentOptions {
     meta?: any;
     customer?: object;
     customizations?: object;
-    callback: (response: object) => void;
+    callback?: (response: object) => void;
     onclose?: () => void;
 }
 /**
