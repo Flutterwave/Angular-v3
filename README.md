@@ -4,6 +4,7 @@
 
 
 # Flutterwave v3 Angular Library
+![Node.js Package](https://github.com/Flutterwave/Flutterwave-Angular-v3/workflows/Node.js%20Package/badge.svg)
 ![npm](https://img.shields.io/npm/v/flutterwave-angular-v3)
 ![npm](https://img.shields.io/npm/dt/flutterwave-angular-v3)
 ![NPM](https://img.shields.io/npm/l/flutterwave-angular-v3)
