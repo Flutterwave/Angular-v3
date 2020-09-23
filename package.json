@@ -20,16 +20,11 @@
     "ng": "ng",
     "start": "ng serve --open --port=9879",
     "build": "npx ng-packagr -p ng-package.json && cd dist && npm pack",
-    "publish": "cd dist && npm publish",
     "pack": "cd dist && npm pack",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
-
   },
-
-
-
   "private": false,
   "dependencies": {
     "@angular/animations": ">=4.0.0",

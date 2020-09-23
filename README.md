@@ -1,4 +1,15 @@
-## 📝 Table of Contents
+<p align="center">
+    <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
+</p>
+
+
+# Flutterwave v3 Angular Library
+![Node.js Package](https://github.com/Flutterwave/Flutterwave-Angular-v3/workflows/Node.js%20Package/badge.svg)
+![npm](https://img.shields.io/npm/v/flutterwave-angular-v3)
+![npm](https://img.shields.io/npm/dt/flutterwave-angular-v3)
+![NPM](https://img.shields.io/npm/l/flutterwave-angular-v3)
+
+## Table of Contents
 
 - [About](#about)
 - [Getting Started](#getting-started)
@@ -15,7 +26,7 @@ Flutterwave official  Angular library to accept payment via  card , USSD, QrCode
 
 <a id="getting-started"></a>
 
-## 🏁 Getting Started
+## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 See [references](#references) for links to dashboard and API documentation.
@@ -45,7 +56,7 @@ $ yarn  add  flutterwave-angular-v3
 
 <a id="usage"></a>
 
-## 🔧 Usage
+## Usage
 
 Import FlutterwaveModule to the  app root module
 
@@ -268,13 +279,13 @@ export class AppComponent{
 ```
 
 <a id="deployment"></a>
-## 🚀 Deployment
+## Deployment
 
 - Switch to Live Mode on the Dashboard settings page
-- Use the Live Public API key 
+- Use the Live Public API key from the API tab
 
 <a id="build-tools"></a>
-## ⛏️ Built Using
+## Built Using
 
 - [Angular CLI](https://cli.angular.io/) 
 - [Typescript](https://www.typescriptlang.org/)
@@ -284,8 +295,12 @@ export class AppComponent{
 
 
 <a id="references"></a>
-## 🎉 Flutterwave API  References
+## Flutterwave API  References
 
 - [Flutterwave API Doc](https://developer.flutterwave.com/docs)
 - [Flutterwave Inline Payment Doc](https://developer.flutterwave.com/docs/flutterwave-inline)
 - [Flutterwave Dashboard](https://dashboard.flutterwave.com/login)  
+
+
+
+  
