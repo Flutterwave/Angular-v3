@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common';
 /**
  * Payment data object
  * \@property public_key {String}
- * \@property callbackContext {Object}  The context of the component or service that has the callback method. The value must always be 'this'. Using any other value might lead to error.
+ * \@property callbackContext {Object}  The context of the
+ * component or service that has the callback method.
+ * The value must always be 'this'.
+ * Using any other value might lead to error.
  * \@property tx_ref {String}
  * \@property amount {Number}
  * \@property currency {String}
@@ -49,18 +52,18 @@ class MakePaymentComponent {
         this.callback = new EventEmitter();
         this.close = new EventEmitter();
         this.customer_defaults = {
-            email: "",
-            phone_number: "",
-            name: "",
+            email: '',
+            phone_number: '',
+            name: '',
         };
         this.meta_defaults = {
             consumer_id: '',
             consumer_mac: '',
         };
         this.customizations_defaults = {
-            title: "",
-            description: "",
-            logo: "",
+            title: '',
+            description: '',
+            logo: '',
         };
     }
     /**
@@ -100,7 +103,7 @@ class MakePaymentComponent {
                 tx_ref: this.tx_ref,
                 amount: this.amount,
                 currency: this.currency || 'NGN',
-                payment_options: this.payment_options || "card, mobilemoney, ussd",
+                payment_options: this.payment_options || 'card, mobilemoney, ussd',
                 redirect_url: this.redirect_url || '',
                 meta: Object.assign({}, this.meta_defaults, this.meta),
                 customer: Object.assign({}, this.customer_defaults, this.customer),
@@ -115,6 +118,7 @@ class MakePaymentComponent {
 }
 MakePaymentComponent.decorators = [
     { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
                 selector: 'flutterwave-make-payment',
                 template: `
     <button
@@ -174,14 +178,13 @@ class Flutterwave {
      * @return {?}
      */
     inlinePay(paymentData) {
-        let /** @type {?} */ data = Object.assign({}, paymentData, { callback: response => {
+        const /** @type {?} */ data = Object.assign({}, paymentData, { callback: response => {
                 paymentData.callbackContext[paymentData.callback.name](response);
             }, onclose: () => {
                 try {
                     paymentData.callbackContext[paymentData.onclose.name]();
                 }
-                catch (e) {
-                }
+                catch (e) { }
             } });
         FlutterwaveCheckout(data);
     }
@@ -204,7 +207,7 @@ class Flutterwave {
      */
     closePaymentModal(waitDuration = 0) {
         setTimeout(() => {
-            document.getElementsByName('checkout')[0].setAttribute('style', "z-index: -1; opacity: 0");
+            document.getElementsByName('checkout')[0].setAttribute('style', 'z-index: -1; opacity: 0');
         }, waitDuration * 1000);
     }
 }
@@ -218,7 +221,7 @@ Flutterwave.ctorParameters = () => [];
 
 class FlutterwaveModule {
     constructor() {
-        const inlineSdk = "https://checkout.flutterwave.com/v3.js";
+        const inlineSdk = 'https://checkout.flutterwave.com/v3.js';
         const script = document.createElement('script');
         script.src = inlineSdk;
         if (!document.querySelector(`[src="${inlineSdk}"]`)) {

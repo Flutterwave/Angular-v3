@@ -10,8 +10,6 @@ export declare class MakePaymentComponent implements OnInit {
     meta: object;
     customer: object;
     callback: EventEmitter<PaymentSuccessResponse>;
-    closeAfterSuccessfulPayment: boolean;
-    durationBeforeClose: number;
     close: EventEmitter<any>;
     customizations: object;
     text: string;
