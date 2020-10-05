@@ -4,7 +4,10 @@
  * Payment data object
  * @typedef {Object}
  * @property public_key {String}
- * @property callbackContext {Object}  The context of the component or service that has the callback method. The value must always be 'this'. Using any other value might lead to error.
+ * @property callbackContext {Object}  The context of the
+ * component or service that has the callback method.
+ * The value must always be 'this'.
+ * Using any other value might lead to error.
  * @property tx_ref {String}
  * @property amount {Number}
  * @property currency {String}
@@ -18,18 +21,18 @@
  */
   class  InlinePaymentOptions  {
   public_key: string;
-  callbackContext : object
+  callbackContext?: object;
   tx_ref: string;
   amount: number;
   currency?: string;
   country?: string;
   authorization?: object | string;
-  payment_options?: string
+  payment_options?: string;
   redirect_url?: string;
   meta ?: any;
-  customer : object
+  customer?: object;
   customizations?: object;
-  callback: (response: object) => void;
+  callback?: (response: object) => void;
   onclose?: () => void;
 }
 
@@ -55,7 +58,7 @@ class  AsyncPaymentOptions {
   authorization?: object | string;
   payment_options?: string;
   meta ?: any;
-  customer : object
+  customer?: object;
   customizations?: object;
 }
 
@@ -73,13 +76,13 @@ declare function  FlutterwaveCheckout(any)
  * @property transaction_id {String}
  * @property tx_ref {String}
  */
- class  PaymentSuccessResponse{
-    amount?: number
-    currency?: string
-    customer?: object
-    flw_ref?: string
-    status?: string
-    transaction_id?: number
+ class  PaymentSuccessResponse {
+    amount?: number;
+    currency?: string;
+    customer?: object;
+    flw_ref?: string;
+    status?: string;
+    transaction_id?: number;
     tx_ref?: string
   }
 

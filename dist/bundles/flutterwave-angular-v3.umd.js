@@ -7,7 +7,10 @@
 /**
  * Payment data object
  * \@property public_key {String}
- * \@property callbackContext {Object}  The context of the component or service that has the callback method. The value must always be 'this'. Using any other value might lead to error.
+ * \@property callbackContext {Object}  The context of the
+ * component or service that has the callback method.
+ * The value must always be 'this'.
+ * Using any other value might lead to error.
  * \@property tx_ref {String}
  * \@property amount {Number}
  * \@property currency {String}
@@ -60,18 +63,18 @@ var MakePaymentComponent = (function () {
         this.callback = new core.EventEmitter();
         this.close = new core.EventEmitter();
         this.customer_defaults = {
-            email: "",
-            phone_number: "",
-            name: "",
+            email: '',
+            phone_number: '',
+            name: '',
         };
         this.meta_defaults = {
             consumer_id: '',
             consumer_mac: '',
         };
         this.customizations_defaults = {
-            title: "",
-            description: "",
-            logo: "",
+            title: '',
+            description: '',
+            logo: '',
         };
     }
     /**
@@ -112,7 +115,7 @@ var MakePaymentComponent = (function () {
                 tx_ref: this.tx_ref,
                 amount: this.amount,
                 currency: this.currency || 'NGN',
-                payment_options: this.payment_options || "card, mobilemoney, ussd",
+                payment_options: this.payment_options || 'card, mobilemoney, ussd',
                 redirect_url: this.redirect_url || '',
                 meta: Object.assign({}, this.meta_defaults, this.meta),
                 customer: Object.assign({}, this.customer_defaults, this.customer),
@@ -128,6 +131,7 @@ var MakePaymentComponent = (function () {
 }());
 MakePaymentComponent.decorators = [
     { type: core.Component, args: [{
+                // tslint:disable-next-line:component-selector
                 selector: 'flutterwave-make-payment',
                 template: "\n    <button\n      style=\"{{style}}\"\n      [ngClass]=\"className ? className : 'flutterwave-pay-button' \"\n      (click)=\"makePayment()\">\n      {{text || 'Pay'}}\n    </button>\n  ",
                 styles: ["\n    .flutterwave-pay-button{\n      background-color: #f5a623;\n      border-radius: 4px;\n      border-color: #f5a623;\n      -webkit-box-shadow: 0 2px 3px 0 #ccc;\n              box-shadow: 0 2px 3px 0 #ccc;\n      color: #fff;\n      display: block;\n      font-size: 12px;\n      font-weight: 700;\n      padding: 14px 22px;\n      text-align: center;\n      text-decoration: none;\n      -webkit-transition: all .3s ease-in-out;\n      transition: all .3s ease-in-out;\n\n    }\n  "]
@@ -168,8 +172,7 @@ var Flutterwave = (function () {
                 try {
                     paymentData.callbackContext[paymentData.onclose.name]();
                 }
-                catch (e) {
-                }
+                catch (e) { }
             } });
         FlutterwaveCheckout(data);
     };
@@ -193,7 +196,9 @@ var Flutterwave = (function () {
     Flutterwave.prototype.closePaymentModal = function (waitDuration) {
         if (waitDuration === void 0) { waitDuration = 0; }
         setTimeout(function () {
-            document.getElementsByName('checkout')[0].setAttribute('style', "z-index: -1; opacity: 0");
+            document.getElementsByName('checkout')[0].setAttribute('style', 'position:fixed;top:0;left:0;z-index:-1;border:none;opacity:0;pointer-events:none;width:100%;height:100%;');
+            document.body.style.overflow = '';
+            // document.getElementsByName('checkout')[0].setAttribute('style', 'z-index: -1; opacity: 0')
         }, waitDuration * 1000);
     };
     return Flutterwave;
@@ -207,7 +212,7 @@ Flutterwave.decorators = [
 Flutterwave.ctorParameters = function () { return []; };
 var FlutterwaveModule = (function () {
     function FlutterwaveModule() {
-        var inlineSdk = "https://checkout.flutterwave.com/v3.js";
+        var inlineSdk = 'https://checkout.flutterwave.com/v3.js';
         var script = document.createElement('script');
         script.src = inlineSdk;
         if (!document.querySelector("[src=\"" + inlineSdk + "\"]")) {

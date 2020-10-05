@@ -6,9 +6,9 @@ export class Flutterwave {
 
   constructor() { }
 
-  inlinePay(paymentData: InlinePaymentOptions){
+  inlinePay(paymentData: InlinePaymentOptions) {
 
-    let data = {
+    const data = {
       ...paymentData,
       callback: response => {
         paymentData.callbackContext[paymentData.callback.name](response)
@@ -16,17 +16,15 @@ export class Flutterwave {
       onclose: () => {
         try {
           paymentData.callbackContext[paymentData.onclose.name]()
-        }
-        catch (e) {
-        }
+        } catch (e) {}
       }
-    }
+    };
 
     FlutterwaveCheckout(data);
 
   }
 
-  asyncInlinePay(paymentData: AsyncPaymentOptions): Promise<PaymentSuccessResponse | 'closed'>{
+  asyncInlinePay(paymentData: AsyncPaymentOptions): Promise<PaymentSuccessResponse | 'closed'> {
 
     return new Promise((resolve, reject) => {
 
@@ -36,7 +34,7 @@ export class Flutterwave {
           resolve($event)
         } ,
         onclose: () => resolve('closed')
-      }
+      };
 
       FlutterwaveCheckout(paymentData)
 
@@ -49,14 +47,13 @@ export class Flutterwave {
    *
    * @param waitDuration {Number} Seconds before closing payment modal
    */
-  closePaymentModal(waitDuration: number = 0){
-
-    setTimeout(()=>{
-      document.getElementsByName('checkout')[0].setAttribute('style', "z-index: -1; opacity: 0")
-
+  closePaymentModal(waitDuration: number = 0) {
+    setTimeout(() => {
+      document.getElementsByName('checkout')[0].setAttribute('style',
+        'position:fixed;top:0;left:0;z-index:-1;border:none;opacity:0;pointer-events:none;width:100%;height:100%;');
+      document.body.style.overflow = '';
+     // document.getElementsByName('checkout')[0].setAttribute('style', 'z-index: -1; opacity: 0')
     } , waitDuration * 1000 )
-
-
   }
 
 }
