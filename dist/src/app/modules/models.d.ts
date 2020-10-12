@@ -10,6 +10,7 @@
  * @property amount {Number}
  * @property currency {String}
  * @property payment_options {String}
+ * @property payment_plan {String}
  * @property redirect_url {String}
  * @property meta {Object}
  * @property customer {Object}
@@ -26,6 +27,9 @@ declare class InlinePaymentOptions {
     country?: string;
     authorization?: object | string;
     payment_options?: string;
+    payment_plan?: string | number;
+    subaccounts?: any;
+    integrity_hash?: any;
     redirect_url?: string;
     meta?: any;
     customer?: object;
@@ -44,6 +48,7 @@ declare class InlinePaymentOptions {
  * @property meta {Object}
  * @property customer {Object}
  * @property customizations {Object}
+ * @property payment_plan {String}
  */
 declare class AsyncPaymentOptions {
     public_key: string;
@@ -56,6 +61,9 @@ declare class AsyncPaymentOptions {
     meta?: any;
     customer?: object;
     customizations?: object;
+    payment_plan?: string | number;
+    subaccounts?: any;
+    integrity_hash?: any;
 }
 declare function FlutterwaveCheckout(any: any): any;
 /**
@@ -68,6 +76,7 @@ declare function FlutterwaveCheckout(any: any): any;
  * @property status {String}
  * @property transaction_id {String}
  * @property tx_ref {String}
+ * @property payment_plan {String}
  */
 declare class PaymentSuccessResponse {
     amount?: number;
@@ -77,5 +86,6 @@ declare class PaymentSuccessResponse {
     status?: string;
     transaction_id?: number;
     tx_ref?: string;
+    payment_plan?: string | number;
 }
 export { InlinePaymentOptions, AsyncPaymentOptions, FlutterwaveCheckout, PaymentSuccessResponse };

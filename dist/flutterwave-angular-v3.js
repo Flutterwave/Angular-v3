@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
  * \@property amount {Number}
  * \@property currency {String}
  * \@property payment_options {String}
+ * \@property payment_plan {String}
  * \@property redirect_url {String}
  * \@property meta {Object}
  * \@property customer {Object}
@@ -31,6 +32,7 @@ class InlinePaymentOptions {
  * \@property meta {Object}
  * \@property customer {Object}
  * \@property customizations {Object}
+ * \@property payment_plan {String}
  */
 class AsyncPaymentOptions {
 }
@@ -43,6 +45,7 @@ class AsyncPaymentOptions {
  * \@property status {String}
  * \@property transaction_id {String}
  * \@property tx_ref {String}
+ * \@property payment_plan {String}
  */
 class PaymentSuccessResponse {
 }
@@ -113,6 +116,15 @@ class MakePaymentComponent {
                 onclose: () => this.close.emit(),
                 customizations: Object.assign({}, this.customizations_defaults, this.customizations)
             };
+            if (this.payment_plan) {
+                this.inlinePaymentOptions.payment_plan = this.payment_plan;
+            }
+            if (this.subaccounts) {
+                this.inlinePaymentOptions.subaccounts = this.subaccounts;
+            }
+            if (this.integrity_hash) {
+                this.inlinePaymentOptions.integrity_hash = this.integrity_hash;
+            }
         }
     }
 }
@@ -159,6 +171,9 @@ MakePaymentComponent.propDecorators = {
     'amount': [{ type: Input },],
     'currency': [{ type: Input },],
     'payment_options': [{ type: Input },],
+    'payment_plan': [{ type: Input },],
+    'subaccounts': [{ type: Input },],
+    'integrity_hash': [{ type: Input },],
     'redirect_url': [{ type: Input },],
     'meta': [{ type: Input },],
     'customer': [{ type: Input },],
@@ -207,7 +222,9 @@ class Flutterwave {
      */
     closePaymentModal(waitDuration = 0) {
         setTimeout(() => {
-            document.getElementsByName('checkout')[0].setAttribute('style', 'z-index: -1; opacity: 0');
+            document.getElementsByName('checkout')[0].setAttribute('style', 'position:fixed;top:0;left:0;z-index:-1;border:none;opacity:0;pointer-events:none;width:100%;height:100%;');
+            document.body.style.overflow = '';
+            // document.getElementsByName('checkout')[0].setAttribute('style', 'z-index: -1; opacity: 0')
         }, waitDuration * 1000);
     }
 }

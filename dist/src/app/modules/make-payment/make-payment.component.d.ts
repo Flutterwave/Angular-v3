@@ -6,6 +6,9 @@ export declare class MakePaymentComponent implements OnInit {
     amount: number;
     currency: string;
     payment_options: string;
+    payment_plan: string | number;
+    subaccounts: any;
+    integrity_hash: any;
     redirect_url: string;
     meta: object;
     customer: object;

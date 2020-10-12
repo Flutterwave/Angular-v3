@@ -14,6 +14,9 @@ export class MakePaymentComponent implements OnInit {
   @Input() amount: number;
   @Input() currency: string;
   @Input() payment_options: string;
+  @Input() payment_plan: string | number;
+  @Input() subaccounts: any;
+  @Input() integrity_hash: any;
   @Input() redirect_url: string;
   @Input() meta: object; // { counsumer_id, consumer_mac}
   @Input() customer: object; // {email, phone_number,name}
@@ -97,7 +100,15 @@ export class MakePaymentComponent implements OnInit {
         customizations: {...this.customizations_defaults
           , ...this.customizations}
       }
-
+      if (this.payment_plan) {
+        this.inlinePaymentOptions.payment_plan = this.payment_plan
+      }
+      if (this.subaccounts) {
+        this.inlinePaymentOptions.subaccounts = this.subaccounts
+      }
+      if (this.integrity_hash) {
+        this.inlinePaymentOptions.integrity_hash = this.integrity_hash
+      }
     }
 
 

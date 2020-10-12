@@ -12,6 +12,7 @@
  * @property amount {Number}
  * @property currency {String}
  * @property payment_options {String}
+ * @property payment_plan {String}
  * @property redirect_url {String}
  * @property meta {Object}
  * @property customer {Object}
@@ -28,6 +29,9 @@
   country?: string;
   authorization?: object | string;
   payment_options?: string;
+  payment_plan?: string | number;
+  subaccounts?: any;
+  integrity_hash?: any;
   redirect_url?: string;
   meta ?: any;
   customer?: object;
@@ -48,6 +52,7 @@
  * @property meta {Object}
  * @property customer {Object}
  * @property customizations {Object}
+ * @property payment_plan {String}
  */
 class  AsyncPaymentOptions {
   public_key: string;
@@ -60,6 +65,9 @@ class  AsyncPaymentOptions {
   meta ?: any;
   customer?: object;
   customizations?: object;
+  payment_plan?: string | number;
+  subaccounts?: any;
+  integrity_hash?: any;
 }
 
 
@@ -75,6 +83,7 @@ declare function  FlutterwaveCheckout(any)
  * @property status {String}
  * @property transaction_id {String}
  * @property tx_ref {String}
+ * @property payment_plan {String}
  */
  class  PaymentSuccessResponse {
     amount?: number;
@@ -83,7 +92,8 @@ declare function  FlutterwaveCheckout(any)
     flw_ref?: string;
     status?: string;
     transaction_id?: number;
-    tx_ref?: string
+    tx_ref?: string;
+    payment_plan?: string|  number
   }
 
 
