@@ -15,6 +15,7 @@
  * \@property amount {Number}
  * \@property currency {String}
  * \@property payment_options {String}
+ * \@property payment_plan {String}
  * \@property redirect_url {String}
  * \@property meta {Object}
  * \@property customer {Object}
@@ -37,6 +38,7 @@ var InlinePaymentOptions = (function () {
  * \@property meta {Object}
  * \@property customer {Object}
  * \@property customizations {Object}
+ * \@property payment_plan {String}
  */
 var AsyncPaymentOptions = (function () {
     function AsyncPaymentOptions() {
@@ -52,6 +54,7 @@ var AsyncPaymentOptions = (function () {
  * \@property status {String}
  * \@property transaction_id {String}
  * \@property tx_ref {String}
+ * \@property payment_plan {String}
  */
 var PaymentSuccessResponse = (function () {
     function PaymentSuccessResponse() {
@@ -125,6 +128,15 @@ var MakePaymentComponent = (function () {
                 onclose: function () { return _this.close.emit(); },
                 customizations: Object.assign({}, this.customizations_defaults, this.customizations)
             };
+            if (this.payment_plan) {
+                this.inlinePaymentOptions.payment_plan = this.payment_plan;
+            }
+            if (this.subaccounts) {
+                this.inlinePaymentOptions.subaccounts = this.subaccounts;
+            }
+            if (this.integrity_hash) {
+                this.inlinePaymentOptions.integrity_hash = this.integrity_hash;
+            }
         }
     };
     return MakePaymentComponent;
@@ -147,6 +159,9 @@ MakePaymentComponent.propDecorators = {
     'amount': [{ type: core.Input },],
     'currency': [{ type: core.Input },],
     'payment_options': [{ type: core.Input },],
+    'payment_plan': [{ type: core.Input },],
+    'subaccounts': [{ type: core.Input },],
+    'integrity_hash': [{ type: core.Input },],
     'redirect_url': [{ type: core.Input },],
     'meta': [{ type: core.Input },],
     'customer': [{ type: core.Input },],

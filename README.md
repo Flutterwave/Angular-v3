@@ -278,6 +278,88 @@ export class AppComponent{
 
 ```
 
+Recurring payment (Payment Plans) Example: 
+See [here](https://developer.flutterwave.com/docs/payment-plans)  for how to create and fetch payment plans.
+```typescript
+import {Component, OnInit} from '@angular/core';
+import {Flutterwave, InlinePaymentOptions, PaymentSuccessResponse} from "flutterwave-angular-v3"
+@Component({
+  selector: 'app-root',
+  template: ` <flutterwave-make-payment
+                [public_key]="publicKey"
+                amount='10'
+                currency='NGN'
+                payment_options="card"
+                payment_plan="6341"
+                redirect_url=""
+                text="Pay for Payment Plan"
+                [customer]="customerDetails"
+                [customizations]="customizations"
+                [meta]="meta"
+                [tx_ref]="generateReference()"
+                (callback)="makePaymentCallback($event)"
+                (close)="closedPaymentModal()" >
+            </flutterwave-make-payment>`
+})
+export class AppComponent{
+  //use your PUBLIC_KEY here
+  publicKey = "FLWPUBK_TEST-XXXXX-X";
+
+  customerDetails = { name: 'Demo Customer  Name', email: 'customer@mail.com', phone_number: '08100000000'}
+
+  customizations = {title: 'Customization Title', description: 'Customization Description', logo: 'https://flutterwave.com/images/logo-colored.svg'}
+
+  meta = {'counsumer_id': '7898', 'consumer_mac': 'kjs9s8ss7dd'}
+
+ constructor( private flutterwave: Flutterwave) {}
+
+  makePaymentCallback(response: PaymentSuccessResponse): void {
+    console.log("Pay", response);
+    this.flutterwave.closePaymentModal(5)
+  }
+  closedPaymentModal(): void {
+    console.log('payment is closed');
+  }
+  generateReference(): string {
+    let date = new Date();
+    return date.getTime().toString();
+  }
+}
+
+```
+Payment option parameters and descriptions:
+
+| Parameter  | Always Required ? | Description |
+| ------------- | ------------- | ------------- |
+| public_key  | True  | Your API public key |
+| tx_ref  | True  | Your transaction reference. This MUST be unique for every transaction |
+| amount  | True  | Amount to charge the customer. |
+| currency  | False  | currency to charge in. Defaults to NGN
+ |
+| integrity_hash  | False  | This is a sha256 hash of your FlutterwaveCheckout values, it is used for passing secured values to the payment gateway. |
+| payment_options  | True  | This specifies the payment options to be displayed e.g - card, mobilemoney, ussd and so on.  |
+| payment_plan  | False  | This is the payment plan ID used for Recurring billing
+  |
+| redirect_url  | False  | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them.  |
+| customer  | True  | This is an object that can contains your customer details: e.g - 'customer': {'email': 'example@example.com','phonenumber': '08012345678','name': 'Takeshi Kovacs' } |
+| subaccounts  | False  | This is an array of objects containing the subaccount IDs to split the payment into. Check our Split Payment page for more info |
+| meta  | False  | This is an object that helps you include additional payment information to your request e.g {'consumer_id': 23,'consumer_mac': '92a3-912ba-1192a' } |
+|  customizations | True  | This is an object that contains title, logo, and description you want to display on the modal e.g{'title': 'Pied Piper Payments','description': 'Middleout isn't free. Pay the price','logo': 'https://assets.piedpiper.com/logo.png'  } |
+| callback (function)  | False  | This is the function that runs after payment is completed  |
+| close (function)  | False  | This is the function that runs after payment modal is closed  |
+
+
+Methods provided by Flutterwave service and descriptions:
+
+| Method Name  | Parameters  | Returns |Description |
+| ------------- | ------------- | ------------- | ------------- |
+| inlinePay  |  InlinePaymentOptions : Object  | Null | This methods allows you to setup and open the payment modal via code |
+| asyncInlinePay  |  AsyncPaymentOptions : Object  | Promise | This methods allows you to setup and open the payment modal via code and returns a promise containing the payment response |
+| closePaymentModal  |  waitDuration : number (Optional, default = 0)  | Null | This methods allows you to close the payment modal via code. You can setup the wait time before modal close |
+
+
+
+
 <a id="deployment"></a>
 ## Deployment
 
