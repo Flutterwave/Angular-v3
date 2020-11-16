@@ -50,8 +50,137 @@ class AsyncPaymentOptions {
 class PaymentSuccessResponse {
 }
 
-class MakePaymentComponent {
+class ApiTracking {
     constructor() {
+        this.trackingEndPoint = 'https://kgelfdz7mf.execute-api.us-east-1.amazonaws.com/staging/sendevent';
+        this.packageVersion = '1.2.1';
+        this.language = 'Angular V3';
+    }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    track(data) {
+        const /** @type {?} */ trackingData = {
+            publicKey: data.paymentData.public_key,
+            language: this.language,
+            version: this.packageVersion,
+            title: '',
+            message: '0' // data.responseTime
+        };
+        const /** @type {?} */ paymentOptions = data.paymentData.payment_options || '';
+        const /** @type {?} */ paymentOptionsArray = paymentOptions ? paymentOptions.split(',') : [];
+        let /** @type {?} */ title = '';
+        if (paymentOptionsArray.length === 0) {
+            title = 'Initiate-Charge-Dashboard';
+        }
+        else if (paymentOptionsArray.length === 1) {
+            title = 'Initiate-Charge-' + paymentOptions;
+        }
+        else {
+            title = 'Initiate-Charge-Multiple';
+        }
+        trackingData.title = data.response.status === 'successful' ? title : title + '-error';
+        this.submitTracking(trackingData);
+    }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    submitTracking(data) {
+        fetch(this.trackingEndPoint, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then((res) => {
+        });
+    }
+}
+ApiTracking.decorators = [
+    { type: Injectable },
+];
+/**
+ * @nocollapse
+ */
+ApiTracking.ctorParameters = () => [];
+
+class Flutterwave {
+    /**
+     * @param {?} tracker
+     */
+    constructor(tracker) {
+        this.tracker = tracker;
+    }
+    /**
+     * @param {?} paymentData
+     * @return {?}
+     */
+    inlinePay(paymentData) {
+        const /** @type {?} */ data = Object.assign({}, paymentData, { callback: response => {
+                this.submitToTracker(paymentData, response, 10000);
+                paymentData.callbackContext[paymentData.callback.name](response);
+            }, onclose: () => {
+                try {
+                    paymentData.callbackContext[paymentData.onclose.name]();
+                }
+                catch (e) { }
+            } });
+        FlutterwaveCheckout(data);
+    }
+    /**
+     * @param {?} paymentData
+     * @return {?}
+     */
+    asyncInlinePay(paymentData) {
+        return new Promise((resolve, reject) => {
+            paymentData = Object.assign({}, paymentData, { callback: ($event) => {
+                    this.submitToTracker(paymentData, $event, 10000);
+                    resolve($event);
+                }, onclose: () => resolve('closed') });
+            FlutterwaveCheckout(paymentData);
+        });
+    }
+    /**
+     * @param {?} paymentData
+     * @param {?} response
+     * @param {?} responseTime
+     * @return {?}
+     */
+    submitToTracker(paymentData, response, responseTime) {
+        this.tracker.track({
+            paymentData,
+            response,
+            responseTime
+        });
+    }
+    /**
+     *
+     * @param {?=} waitDuration {Number} Seconds before closing payment modal
+     * @return {?}
+     */
+    closePaymentModal(waitDuration = 0) {
+        setTimeout(() => {
+            document.getElementsByName('checkout')[0].setAttribute('style', 'position:fixed;top:0;left:0;z-index:-1;border:none;opacity:0;pointer-events:none;width:100%;height:100%;');
+            document.body.style.overflow = '';
+            // document.getElementsByName('checkout')[0].setAttribute('style', 'z-index: -1; opacity: 0')
+        }, waitDuration * 1000);
+    }
+}
+Flutterwave.decorators = [
+    { type: Injectable },
+];
+/**
+ * @nocollapse
+ */
+Flutterwave.ctorParameters = () => [
+    { type: ApiTracking, },
+];
+
+class MakePaymentComponent {
+    /**
+     * @param {?} flutterwave
+     */
+    constructor(flutterwave) {
+        this.flutterwave = flutterwave;
         this.callback = new EventEmitter();
         this.close = new EventEmitter();
         this.customer_defaults = {
@@ -90,6 +219,7 @@ class MakePaymentComponent {
         this.customizations = this.customizations || {};
         if (this.data) {
             this.inlinePaymentOptions = Object.assign({}, this.data, { callback: response => {
+                    this.flutterwave.submitToTracker(this.data, response, 10000);
                     this.data.callbackContext[this.data.callback.name](response);
                 }, onclose: () => {
                     try {
@@ -111,6 +241,7 @@ class MakePaymentComponent {
                 meta: Object.assign({}, this.meta_defaults, this.meta),
                 customer: Object.assign({}, this.customer_defaults, this.customer),
                 callback: (response) => {
+                    this.flutterwave.submitToTracker(this.inlinePaymentOptions, response, 10000);
                     this.callback.emit(response);
                 },
                 onclose: () => this.close.emit(),
@@ -164,7 +295,9 @@ MakePaymentComponent.decorators = [
 /**
  * @nocollapse
  */
-MakePaymentComponent.ctorParameters = () => [];
+MakePaymentComponent.ctorParameters = () => [
+    { type: Flutterwave, },
+];
 MakePaymentComponent.propDecorators = {
     'public_key': [{ type: Input },],
     'tx_ref': [{ type: Input },],
@@ -186,56 +319,6 @@ MakePaymentComponent.propDecorators = {
     'data': [{ type: Input },],
 };
 
-class Flutterwave {
-    constructor() { }
-    /**
-     * @param {?} paymentData
-     * @return {?}
-     */
-    inlinePay(paymentData) {
-        const /** @type {?} */ data = Object.assign({}, paymentData, { callback: response => {
-                paymentData.callbackContext[paymentData.callback.name](response);
-            }, onclose: () => {
-                try {
-                    paymentData.callbackContext[paymentData.onclose.name]();
-                }
-                catch (e) { }
-            } });
-        FlutterwaveCheckout(data);
-    }
-    /**
-     * @param {?} paymentData
-     * @return {?}
-     */
-    asyncInlinePay(paymentData) {
-        return new Promise((resolve, reject) => {
-            paymentData = Object.assign({}, paymentData, { callback: ($event) => {
-                    resolve($event);
-                }, onclose: () => resolve('closed') });
-            FlutterwaveCheckout(paymentData);
-        });
-    }
-    /**
-     *
-     * @param {?=} waitDuration {Number} Seconds before closing payment modal
-     * @return {?}
-     */
-    closePaymentModal(waitDuration = 0) {
-        setTimeout(() => {
-            document.getElementsByName('checkout')[0].setAttribute('style', 'position:fixed;top:0;left:0;z-index:-1;border:none;opacity:0;pointer-events:none;width:100%;height:100%;');
-            document.body.style.overflow = '';
-            // document.getElementsByName('checkout')[0].setAttribute('style', 'z-index: -1; opacity: 0')
-        }, waitDuration * 1000);
-    }
-}
-Flutterwave.decorators = [
-    { type: Injectable },
-];
-/**
- * @nocollapse
- */
-Flutterwave.ctorParameters = () => [];
-
 class FlutterwaveModule {
     constructor() {
         const inlineSdk = 'https://checkout.flutterwave.com/v3.js';
@@ -249,10 +332,10 @@ class FlutterwaveModule {
 FlutterwaveModule.decorators = [
     { type: NgModule, args: [{
                 imports: [
-                    CommonModule
+                    CommonModule,
                 ],
                 declarations: [MakePaymentComponent],
-                providers: [Flutterwave],
+                providers: [Flutterwave, ApiTracking],
                 exports: [MakePaymentComponent]
             },] },
 ];
@@ -265,5 +348,5 @@ FlutterwaveModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { FlutterwaveModule, Flutterwave, InlinePaymentOptions, PaymentSuccessResponse, AsyncPaymentOptions, MakePaymentComponent };
+export { FlutterwaveModule, Flutterwave, InlinePaymentOptions, PaymentSuccessResponse, AsyncPaymentOptions, MakePaymentComponent, ApiTracking as ɵa };
 //# sourceMappingURL=flutterwave-angular-v3.js.map

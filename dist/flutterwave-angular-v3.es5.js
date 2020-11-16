@@ -57,8 +57,140 @@ var PaymentSuccessResponse = (function () {
     }
     return PaymentSuccessResponse;
 }());
+var ApiTracking = (function () {
+    function ApiTracking() {
+        this.trackingEndPoint = 'https://kgelfdz7mf.execute-api.us-east-1.amazonaws.com/staging/sendevent';
+        this.packageVersion = '1.2.1';
+        this.language = 'Angular V3';
+    }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    ApiTracking.prototype.track = function (data) {
+        var /** @type {?} */ trackingData = {
+            publicKey: data.paymentData.public_key,
+            language: this.language,
+            version: this.packageVersion,
+            title: '',
+            message: '0' // data.responseTime
+        };
+        var /** @type {?} */ paymentOptions = data.paymentData.payment_options || '';
+        var /** @type {?} */ paymentOptionsArray = paymentOptions ? paymentOptions.split(',') : [];
+        var /** @type {?} */ title = '';
+        if (paymentOptionsArray.length === 0) {
+            title = 'Initiate-Charge-Dashboard';
+        }
+        else if (paymentOptionsArray.length === 1) {
+            title = 'Initiate-Charge-' + paymentOptions;
+        }
+        else {
+            title = 'Initiate-Charge-Multiple';
+        }
+        trackingData.title = data.response.status === 'successful' ? title : title + '-error';
+        this.submitTracking(trackingData);
+    };
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    ApiTracking.prototype.submitTracking = function (data) {
+        fetch(this.trackingEndPoint, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then(function (res) {
+        });
+    };
+    return ApiTracking;
+}());
+ApiTracking.decorators = [
+    { type: Injectable },
+];
+/**
+ * @nocollapse
+ */
+ApiTracking.ctorParameters = function () { return []; };
+var Flutterwave = (function () {
+    /**
+     * @param {?} tracker
+     */
+    function Flutterwave(tracker) {
+        this.tracker = tracker;
+    }
+    /**
+     * @param {?} paymentData
+     * @return {?}
+     */
+    Flutterwave.prototype.inlinePay = function (paymentData) {
+        var _this = this;
+        var /** @type {?} */ data = Object.assign({}, paymentData, { callback: function (response) {
+                _this.submitToTracker(paymentData, response, 10000);
+                paymentData.callbackContext[paymentData.callback.name](response);
+            }, onclose: function () {
+                try {
+                    paymentData.callbackContext[paymentData.onclose.name]();
+                }
+                catch (e) { }
+            } });
+        FlutterwaveCheckout(data);
+    };
+    /**
+     * @param {?} paymentData
+     * @return {?}
+     */
+    Flutterwave.prototype.asyncInlinePay = function (paymentData) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            paymentData = Object.assign({}, paymentData, { callback: function ($event) {
+                    _this.submitToTracker(paymentData, $event, 10000);
+                    resolve($event);
+                }, onclose: function () { return resolve('closed'); } });
+            FlutterwaveCheckout(paymentData);
+        });
+    };
+    /**
+     * @param {?} paymentData
+     * @param {?} response
+     * @param {?} responseTime
+     * @return {?}
+     */
+    Flutterwave.prototype.submitToTracker = function (paymentData, response, responseTime) {
+        this.tracker.track({
+            paymentData: paymentData,
+            response: response,
+            responseTime: responseTime
+        });
+    };
+    /**
+     *
+     * @param {?=} waitDuration {Number} Seconds before closing payment modal
+     * @return {?}
+     */
+    Flutterwave.prototype.closePaymentModal = function (waitDuration) {
+        if (waitDuration === void 0) { waitDuration = 0; }
+        setTimeout(function () {
+            document.getElementsByName('checkout')[0].setAttribute('style', 'position:fixed;top:0;left:0;z-index:-1;border:none;opacity:0;pointer-events:none;width:100%;height:100%;');
+            document.body.style.overflow = '';
+            // document.getElementsByName('checkout')[0].setAttribute('style', 'z-index: -1; opacity: 0')
+        }, waitDuration * 1000);
+    };
+    return Flutterwave;
+}());
+Flutterwave.decorators = [
+    { type: Injectable },
+];
+/**
+ * @nocollapse
+ */
+Flutterwave.ctorParameters = function () { return [
+    { type: ApiTracking, },
+]; };
 var MakePaymentComponent = (function () {
-    function MakePaymentComponent() {
+    /**
+     * @param {?} flutterwave
+     */
+    function MakePaymentComponent(flutterwave) {
+        this.flutterwave = flutterwave;
         this.callback = new EventEmitter();
         this.close = new EventEmitter();
         this.customer_defaults = {
@@ -98,6 +230,7 @@ var MakePaymentComponent = (function () {
         this.customizations = this.customizations || {};
         if (this.data) {
             this.inlinePaymentOptions = Object.assign({}, this.data, { callback: function (response) {
+                    _this.flutterwave.submitToTracker(_this.data, response, 10000);
                     _this.data.callbackContext[_this.data.callback.name](response);
                 }, onclose: function () {
                     try {
@@ -119,6 +252,7 @@ var MakePaymentComponent = (function () {
                 meta: Object.assign({}, this.meta_defaults, this.meta),
                 customer: Object.assign({}, this.customer_defaults, this.customer),
                 callback: function (response) {
+                    _this.flutterwave.submitToTracker(_this.inlinePaymentOptions, response, 10000);
                     _this.callback.emit(response);
                 },
                 onclose: function () { return _this.close.emit(); },
@@ -148,7 +282,9 @@ MakePaymentComponent.decorators = [
 /**
  * @nocollapse
  */
-MakePaymentComponent.ctorParameters = function () { return []; };
+MakePaymentComponent.ctorParameters = function () { return [
+    { type: Flutterwave, },
+]; };
 MakePaymentComponent.propDecorators = {
     'public_key': [{ type: Input },],
     'tx_ref': [{ type: Input },],
@@ -169,58 +305,6 @@ MakePaymentComponent.propDecorators = {
     'className': [{ type: Input },],
     'data': [{ type: Input },],
 };
-var Flutterwave = (function () {
-    function Flutterwave() {
-    }
-    /**
-     * @param {?} paymentData
-     * @return {?}
-     */
-    Flutterwave.prototype.inlinePay = function (paymentData) {
-        var /** @type {?} */ data = Object.assign({}, paymentData, { callback: function (response) {
-                paymentData.callbackContext[paymentData.callback.name](response);
-            }, onclose: function () {
-                try {
-                    paymentData.callbackContext[paymentData.onclose.name]();
-                }
-                catch (e) { }
-            } });
-        FlutterwaveCheckout(data);
-    };
-    /**
-     * @param {?} paymentData
-     * @return {?}
-     */
-    Flutterwave.prototype.asyncInlinePay = function (paymentData) {
-        return new Promise(function (resolve, reject) {
-            paymentData = Object.assign({}, paymentData, { callback: function ($event) {
-                    resolve($event);
-                }, onclose: function () { return resolve('closed'); } });
-            FlutterwaveCheckout(paymentData);
-        });
-    };
-    /**
-     *
-     * @param {?=} waitDuration {Number} Seconds before closing payment modal
-     * @return {?}
-     */
-    Flutterwave.prototype.closePaymentModal = function (waitDuration) {
-        if (waitDuration === void 0) { waitDuration = 0; }
-        setTimeout(function () {
-            document.getElementsByName('checkout')[0].setAttribute('style', 'position:fixed;top:0;left:0;z-index:-1;border:none;opacity:0;pointer-events:none;width:100%;height:100%;');
-            document.body.style.overflow = '';
-            // document.getElementsByName('checkout')[0].setAttribute('style', 'z-index: -1; opacity: 0')
-        }, waitDuration * 1000);
-    };
-    return Flutterwave;
-}());
-Flutterwave.decorators = [
-    { type: Injectable },
-];
-/**
- * @nocollapse
- */
-Flutterwave.ctorParameters = function () { return []; };
 var FlutterwaveModule = (function () {
     function FlutterwaveModule() {
         var inlineSdk = 'https://checkout.flutterwave.com/v3.js';
@@ -235,10 +319,10 @@ var FlutterwaveModule = (function () {
 FlutterwaveModule.decorators = [
     { type: NgModule, args: [{
                 imports: [
-                    CommonModule
+                    CommonModule,
                 ],
                 declarations: [MakePaymentComponent],
-                providers: [Flutterwave],
+                providers: [Flutterwave, ApiTracking],
                 exports: [MakePaymentComponent]
             },] },
 ];
@@ -249,5 +333,5 @@ FlutterwaveModule.ctorParameters = function () { return []; };
 /**
  * Generated bundle index. Do not edit.
  */
-export { FlutterwaveModule, Flutterwave, InlinePaymentOptions, PaymentSuccessResponse, AsyncPaymentOptions, MakePaymentComponent };
+export { FlutterwaveModule, Flutterwave, InlinePaymentOptions, PaymentSuccessResponse, AsyncPaymentOptions, MakePaymentComponent, ApiTracking as ɵa };
 //# sourceMappingURL=flutterwave-angular-v3.es5.js.map

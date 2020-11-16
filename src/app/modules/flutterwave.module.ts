@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MakePaymentComponent } from './make-payment/make-payment.component';
 import {Flutterwave} from './flutterwave.service';
+import {ApiTracking} from './api-tracking.service';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
   ],
   declarations: [MakePaymentComponent] ,
-  providers: [Flutterwave],
+  providers: [Flutterwave, ApiTracking],
   exports: [MakePaymentComponent]
 })
 export class FlutterwaveModule {
