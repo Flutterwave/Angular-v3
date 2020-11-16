@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import {AsyncPaymentOptions, FlutterwaveCheckout, InlinePaymentOptions, PaymentSuccessResponse} from './models';
+import {ApiTracking} from './api-tracking.service';
 
 @Injectable()
 export class Flutterwave {
 
-  constructor() { }
+  constructor(private tracker: ApiTracking) {
+  }
 
   inlinePay(paymentData: InlinePaymentOptions) {
 
     const data = {
       ...paymentData,
       callback: response => {
+       this.submitToTracker(paymentData , response,  10000)
         paymentData.callbackContext[paymentData.callback.name](response)
       } ,
       onclose: () => {
@@ -31,6 +34,7 @@ export class Flutterwave {
       paymentData = {
         ...paymentData,
         callback: ($event) => {
+          this.submitToTracker(paymentData , $event,  10000)
           resolve($event)
         } ,
         onclose: () => resolve('closed')
@@ -43,6 +47,17 @@ export class Flutterwave {
   }
 
 
+  submitToTracker(paymentData , response, responseTime) {
+
+
+      this.tracker.track({
+        paymentData,
+        response,
+        responseTime
+      })
+
+
+  }
   /**
    *
    * @param waitDuration {Number} Seconds before closing payment modal

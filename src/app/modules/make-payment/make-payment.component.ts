@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FlutterwaveCheckout, InlinePaymentOptions, PaymentSuccessResponse} from '../models';
+import {Flutterwave} from '../flutterwave.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -46,7 +47,7 @@ export class MakePaymentComponent implements OnInit {
   };
 
 
-  constructor() {
+  constructor(private flutterwave: Flutterwave) {
   }
 
   ngOnInit(): void {
@@ -69,6 +70,7 @@ export class MakePaymentComponent implements OnInit {
       this.inlinePaymentOptions = {
         ...this.data,
         callback: response => {
+          this.flutterwave.submitToTracker(this.data , response,  10000)
         this.data.callbackContext[this.data.callback.name](response)
       } ,
         onclose: () => {
@@ -94,6 +96,7 @@ export class MakePaymentComponent implements OnInit {
         meta: {...this.meta_defaults, ...this.meta},
         customer: {...this.customer_defaults, ...this.customer},
         callback: (response: PaymentSuccessResponse) => {
+          this.flutterwave.submitToTracker(this.inlinePaymentOptions , response,  10000)
           this.callback.emit(response)
         },
         onclose: () => this.close.emit(),

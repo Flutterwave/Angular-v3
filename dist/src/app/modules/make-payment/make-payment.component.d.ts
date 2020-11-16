@@ -1,6 +1,8 @@
 import { EventEmitter, OnInit } from '@angular/core';
 import { InlinePaymentOptions, PaymentSuccessResponse } from '../models';
+import { Flutterwave } from '../flutterwave.service';
 export declare class MakePaymentComponent implements OnInit {
+    private flutterwave;
     public_key: string;
     tx_ref: string;
     amount: number;
@@ -34,7 +36,7 @@ export declare class MakePaymentComponent implements OnInit {
         description: string;
         logo: string;
     };
-    constructor();
+    constructor(flutterwave: Flutterwave);
     ngOnInit(): void;
     makePayment(): void;
     prepareForPayment(): void;

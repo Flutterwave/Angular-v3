@@ -334,12 +334,10 @@ Payment option parameters and descriptions:
 | public_key  | True  | Your API public key |
 | tx_ref  | True  | Your transaction reference. This MUST be unique for every transaction |
 | amount  | True  | Amount to charge the customer. |
-| currency  | False  | currency to charge in. Defaults to NGN
- |
+| currency  | False  | currency to charge in. Defaults to NGN|
 | integrity_hash  | False  | This is a sha256 hash of your FlutterwaveCheckout values, it is used for passing secured values to the payment gateway. |
 | payment_options  | True  | This specifies the payment options to be displayed e.g - card, mobilemoney, ussd and so on.  |
-| payment_plan  | False  | This is the payment plan ID used for Recurring billing
-  |
+| payment_plan  | False  | This is the payment plan ID used for Recurring billing|
 | redirect_url  | False  | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them.  |
 | customer  | True  | This is an object that can contains your customer details: e.g - 'customer': {'email': 'example@example.com','phonenumber': '08012345678','name': 'Takeshi Kovacs' } |
 | subaccounts  | False  | This is an array of objects containing the subaccount IDs to split the payment into. Check our Split Payment page for more info |
