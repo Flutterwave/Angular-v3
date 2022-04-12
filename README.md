@@ -76,6 +76,17 @@ import { FlutterwaveModule } from "flutterwave-angular-v3"
 })
 ```
 
+***
+NB: If you experience compilation errors in your app after importing the Flutterwave module, component or service.
+Kindly include the following line in tsconfig.app.json under `compilerOptions` :
+
+```
+paths": { "@angular/*": [ "node_modules/@angular/*" ] }
+```
+
+Then restart server and try again
+***
+
 Use as component, Method 1 : Pass  in payment parameters individually as component attributes
 
 ```typescript
