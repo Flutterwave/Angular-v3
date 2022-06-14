@@ -2,7 +2,7 @@
     <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo/full.svg" width="50%"/>
 </p>
 
-# Flutterwave Angular SDK
+# Flutterwave Angular Library
 
 ![Node.js Package](https://github.com/Flutterwave/Flutterwave-Angular-v3/workflows/Node.js%20Package/badge.svg)
 ![npm](https://img.shields.io/npm/v/flutterwave-angular-v3)
