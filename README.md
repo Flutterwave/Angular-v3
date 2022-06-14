@@ -449,12 +449,11 @@ You can also follow us [@FlutterwaveEng](https://twitter.com/FlutterwaveEng) and
 
 ## Contribution Guidelines
 
-We welcome contributions from the community.
-Please see the contribution.md for contributions guidelines.
+We welcome contributions from the community. Read more about our community contribution guidelines [here](/CONTRIBUTING.md).
 
 ## License
 
-By contributing to this library, you agree that your contributions will be licensed under its MIT license.
+By contributing to this library, you agree that your contributions will be licensed under its [MIT license](/LICENSE.md).
 
 Copyright (c) Flutterwave Inc.
 
