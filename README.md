@@ -9,11 +9,9 @@
 ![npm](https://img.shields.io/npm/dt/flutterwave-angular-v3)
 ![NPM](https://img.shields.io/npm/l/flutterwave-angular-v3)
 
-<a id="about"></a>
-
 ## Introduction
 
-The Angular SDK helps you create seamless payment experiences in your Angular mobile/web app. By connecting to our modal, you can start collecting payment in no time.
+The Angular SDK helps you create seamless payment experiences in your Angular mobile or web app. By connecting to our modal, you can start collecting payment in no time.
 
 Available features include:
 
@@ -23,35 +21,21 @@ Available features include:
 
 ## Table of Contents
 
-- [About](#about)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Testing](#test)
-- [Deployment](#deployment)
-- [Built Using](#build-tools)
-- [References](#references)
-- [Debugging errors](#debug)
-- [Support](#support)
-- [Contribution](#contribution)
-- [License](#license)
+1. [Requirements](#requirements)
+2. [Installation](#installation)
+3. [Initialization](#Initialization)
+4. [Usage](#usage)
+5. [Support](#support)
+6. [Contribution Guidelines](#contribution-guidelines)
+7. [License](#license)
 
-<a id="getting-started"></a>
+## Requirements
 
-## Getting Started
+1. Flutterwave version 3 API keys
+2. Node version >= 6.9.x and npm >= 3.x.x
+3. Angular version  >= 4
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
-See [references](#references) for links to dashboard and API documentation.
-
-### Prerequisites
-
-```
-Flutterwave version 3 API keys
-Node version >= 6.9.x and npm >= 3.x.x
-Angular version  >= 4
-
-```
-
-### Installing
+## Installation
 
 Install the SDK
 
@@ -62,9 +46,7 @@ $ yarn  add  flutterwave-angular-v3
 
 ```
 
-<a id="usage"></a>
-
-## Usage
+## Initialization
 
 Import FlutterwaveModule to the app root module
 
@@ -84,9 +66,7 @@ import { FlutterwaveModule } from "flutterwave-angular-v3"
 })
 ```
 
----
-
-NB: If you experience compilation errors in your app after importing the Flutterwave module, component or service.
+> NB: If you experience compilation errors in your app after importing the Flutterwave module, component or service.
 Kindly include the following line in tsconfig.app.json under `compilerOptions` :
 
 ```
@@ -95,9 +75,18 @@ paths": { "@angular/*": [ "node_modules/@angular/*" ] }
 
 Then restart server and try again
 
----
+## Usage
 
-Use as component, Method 1 : Pass in payment parameters individually as component attributes
+You can use Flutterwave in your projects as a component or directly in your code:
+
+1. [As a Component](#using-flutterwave-as-a-component)
+2. [Directly in your code](#using-flutterwave-directly-in-your-code)
+
+### Using Flutterwave as a Component
+
+#### Method 1
+
+Pass in payment parameters individually as component attributes.
 
 ```typescript
 import { Component, OnInit } from "@angular/core";
@@ -158,7 +147,9 @@ export class AppComponent {
 }
 ```
 
-Use as component, Method 2: Pass in the payment parameters as an object to the component 'data' attribute
+#### Method 2
+
+Pass in the payment parameters as an object to the component `data` attribute.
 
 ```typescript
 import { Component, OnInit } from "@angular/core";
@@ -221,7 +212,11 @@ export class AppComponent {
 }
 ```
 
-Use in Code, Method 1 : Using the Flutterwave service.
+### Using Flutterwave directly in your code
+
+#### Method 1
+
+Using the Flutterwave service.
 
 ```typescript
 import { Component } from "@angular/core";
@@ -280,7 +275,9 @@ export class AppComponent {
 }
 ```
 
-Use in Code, Method 2 (Promise): Async Payment Response.
+#### Method 2 (Promise) 
+
+Async Payment Response.
 
 ```typescript
 import { Component } from "@angular/core";
@@ -333,8 +330,9 @@ export class AppComponent {
 }
 ```
 
-Recurring payment (Payment Plans) Example:
-See [here](https://developer.flutterwave.com/docs/payment-plans) for how to create and fetch payment plans.
+### Recurring Payments
+
+Pass the payment plan ID into your payload to make [recurring payments](https://developer.flutterwave.com/docs/recurring-payments/payment-plans).
 
 ```typescript
 import { Component, OnInit } from "@angular/core";
@@ -396,7 +394,9 @@ export class AppComponent {
 }
 ```
 
-Payment option parameters and descriptions:
+### Parameters
+
+Read more about our parameters and how they can be used [here](https://developer.flutterwave.com/docs/collecting-payments/inline).
 
 | Parameter           | Always Required ? | Description                                                                                                                                                                                                                             |
 | ------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -415,6 +415,8 @@ Payment option parameters and descriptions:
 | callback (function) | False             | This is the function that runs after payment is completed                                                                                                                                                                               |
 | close (function)    | False             | This is the function that runs after payment modal is closed                                                                                                                                                                            |
 
+### Methods
+
 Methods provided by Flutterwave service and descriptions:
 
 | Method Name       | Parameters                                    | Returns | Description                                                                                                                |
@@ -423,20 +425,12 @@ Methods provided by Flutterwave service and descriptions:
 | asyncInlinePay    | AsyncPaymentOptions : Object                  | Promise | This methods allows you to setup and open the payment modal via code and returns a promise containing the payment response |
 | closePaymentModal | waitDuration : number (Optional, default = 0) | Null    | This methods allows you to close the payment modal via code. You can setup the wait time before modal close                |
 
-<a id="deployment"></a>
-
-## Deployment
-
-- Switch to Live Mode on the Dashboard settings page
-- Use the Live Public API key from the API tab
-
-<a id="debug"></a>
 
 ## Debugging Errors
 
-We understand that you may run into some errors while integrating our library. You can read more about our error messages here.
+We understand that you may run into some errors while integrating our library. You can read more about our error messages [here](https://developer.flutterwave.com/docs/integration-guides/errors).
 
-For authorization and validation error responses, double-check your API keys and request. If you get a server error, kindly engage the team for support.
+For `authorization` and `validation` error responses, double-check your API keys and request. If you get a `server` error, kindly engage the team for support.
 
 NB: If you experience compilation errors in your app after importing the Flutterwave module, component or service.
 Kindly include the following line in tsconfig.app.json under `compilerOptions` :
@@ -447,22 +441,22 @@ paths": { "@angular/*": [ "node_modules/@angular/*" ] }
 
 Then restart server and try again
 
-<a id="support"></a>
-
 # Support
 
 For additional assistance using this library, please create an issue on the Github repo or contact the developer experience (DX) team via [email](mailto:developers@flutterwavego.com) or on [slack](https://bit.ly/34Vkzcg).
 
 You can also follow us [@FlutterwaveEng](https://twitter.com/FlutterwaveEng) and let us know what you think 😊.
 
-<a id="contribution"></a>
-
-## Contribution
+## Contribution Guidelines
 
 We welcome contributions from the community.
 Please see the contribution.md for contributions guidelines.
 
-<a id="build-tools"></a>
+## License
+
+By contributing to this library, you agree that your contributions will be licensed under its MIT license.
+
+Copyright (c) Flutterwave Inc.
 
 ## Built Using
 
@@ -470,19 +464,3 @@ Please see the contribution.md for contributions guidelines.
 - [Typescript](https://www.typescriptlang.org/)
 - [Angular](https://angular.io/)
 - [ng-packagr](https://github.com/ng-packagr/ng-packagr)
-
-<a id="references"></a>
-
-## Flutterwave API References
-
-- [Flutterwave API Doc](https://developer.flutterwave.com/docs)
-- [Flutterwave Inline Payment Doc](https://developer.flutterwave.com/docs/flutterwave-inline)
-- [Flutterwave Dashboard](https://dashboard.flutterwave.com/login)
-
-<a id="license"></a>
-
-## License
-
-By contributing to this library, you agree that your contributions will be licensed under its MIT license.
-
-Copyright (c) Flutterwave Inc.
