@@ -28,6 +28,7 @@ Available features include:
 5. [Support](#support)
 6. [Contribution Guidelines](#contribution-guidelines)
 7. [License](#license)
+8. [Changelog](#)
 
 ## Requirements
 
@@ -77,10 +78,12 @@ Then restart server and try again
 
 ## Usage
 
-You can use Flutterwave in your projects as a component or directly in your code:
+Add Flutterwave to your project as a component or a react hook:
 
 1. [As a Component](#using-flutterwave-as-a-component)
 2. [Directly in your code](#using-flutterwave-directly-in-your-code)
+3. [Recurring Payments](#recurring-payments)
+
 
 ### Using Flutterwave as a Component
 
@@ -456,10 +459,3 @@ We welcome contributions from the community. Read more about our community contr
 By contributing to this library, you agree that your contributions will be licensed under its [MIT license](/LICENSE.md).
 
 Copyright (c) Flutterwave Inc.
-
-## Built Using
-
-- [Angular CLI](https://cli.angular.io/)
-- [Typescript](https://www.typescriptlang.org/)
-- [Angular](https://angular.io/)
-- [ng-packagr](https://github.com/ng-packagr/ng-packagr)
