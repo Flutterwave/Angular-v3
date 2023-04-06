@@ -1,16 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FlutterwaveModule } from "../flutterwave.module";
 
-import { MakePaymentComponent } from './make-payment.component';
+import { MakePaymentComponent } from "./make-payment.component";
 
-describe('MakePaymentComponent', () => {
+describe("MakePaymentComponent", () => {
   let component: MakePaymentComponent;
   let fixture: ComponentFixture<MakePaymentComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MakePaymentComponent ]
-    })
-    .compileComponents();
+      imports: [FlutterwaveModule],
+      //  declarations: [MakePaymentComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('MakePaymentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(component).toBeTruthy();
   });
 });
