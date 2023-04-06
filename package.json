@@ -21,7 +21,7 @@
     "start": "ng serve --open --port=9879",
     "build": "npx ng-packagr -p ng-package.json && cd dist && npm pack",
     "pack": "cd dist && npm pack",
-    "test": "ng test",
+    "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -37,6 +37,7 @@
     "@angular/platform-browser-dynamic": ">=4.0.0",
     "@angular/router": ">=4.0.0",
     "core-js": ">=2.4.1",
+    "nyc": "^15.1.0",
     "rxjs": ">=5.1.0",
     "zone.js": ">=0.8.4"
   },

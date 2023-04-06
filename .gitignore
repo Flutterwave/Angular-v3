@@ -47,3 +47,6 @@ developmentInfos.md
 Archive.zip
 /.lh
 /.vscode
+
+coverage/
+.nyc_output
