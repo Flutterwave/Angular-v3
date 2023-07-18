@@ -7,8 +7,9 @@ import {PaymentService} from './make-payment.service';
  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit{
+  title = 'newTest';
 
-  publicKey = "FLWPUBK_TEST-XXXXXXXXXXX";
+  publicKey = "FLWPUBK_TEST-02b9b5fc6406bd4a41c3ff141cc45e93-X";
 
   customerDetails = {
     name: 'Demo Customer  Name',
