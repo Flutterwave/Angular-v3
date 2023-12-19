@@ -78,7 +78,7 @@ Then restart server and try again
 
 ## Usage
 
-Add Flutterwave to your project as a component or a react hook:
+Add Flutterwave to your project as a component or directly in your code:
 
 1. [As a Component](#using-flutterwave-as-a-component)
 2. [Directly in your code](#using-flutterwave-directly-in-your-code)
