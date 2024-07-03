@@ -1,23 +1,63 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
 
-name: Deploy AngularJS Package
+name: Publish changes to Angular package
 
 on:
   release:
     types: [created]
 
 jobs:
-  build:
+  check-readme-and-changelog:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: Check for changes in readme and changelog files
+        run: |
+          if ! git diff --quiet HEAD~ HEAD -- README.md CHANGELOG.md; then
+            echo "README and/or CHANGELOG have been modified. Proceeding with deployment."
+          else
+            echo "README and/or CHANGELOG have not been modified. Terminating deployment."
+            exit 1
+          fi
+
+      - name: push build status to slack
+        uses: 8398a7/action-slack@v3
         with:
-          node-version: 12
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
+
+  publish:
+    needs: check-readme-and-changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: setup node.js environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
           registry-url: https://registry.npmjs.org/
-      - run: npm i && npm run build
-      - run: cd dist && npm publish
-        env: 
-          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+
+      - name: install node.js dependencies
+        run: npm ci
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+
+      - name: push build status to slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        if: always()
+
 

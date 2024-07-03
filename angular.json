@@ -1,0 +1,40 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "flutterwave-angular-v3": {
+      "projectType": "library",
+      "root": "projects/flutterwave-angular-v3",
+      "sourceRoot": "projects/flutterwave-angular-v3/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/flutterwave-angular-v3/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/flutterwave-angular-v3/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/flutterwave-angular-v3/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/flutterwave-angular-v3/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

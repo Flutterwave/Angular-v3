@@ -1,0 +1,51 @@
+name: Review changes on Dev (Commits/PRs)
+on:
+  push:
+    branches: ['dev']
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  code-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: setup node.js environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: 'cache node_modules'
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-v${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-v${{ matrix.node }}-
+
+      - name: install node.js dependencies
+        run: |
+          npm install
+
+      - name: run unit tests and coverage scan
+        env:
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: npm run coverage
+
+      - name: upload coverage report to codecov
+        uses: codecov/codecov-action@v2
+
+      - name: push build status to slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        if: always()
