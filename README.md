@@ -33,8 +33,8 @@ Available features include:
 ## Requirements
 
 1. Flutterwave version 3 API keys
-2. Node version >= 6.9.x and npm >= 3.x.x
-3. Angular version  >= 4
+2. Node version >= 14.15.0 and npm >= 6.14.8
+3. Angular version  >= 18
 
 ## Installation
 
@@ -94,7 +94,7 @@ Pass in payment parameters individually as component attributes.
 ```typescript
 import { Component, OnInit } from "@angular/core";
 import {
-  Flutterwave,
+  FlutterwaveService,
   InlinePaymentOptions,
   PaymentSuccessResponse,
 } from "flutterwave-angular-v3";
@@ -134,11 +134,11 @@ export class AppComponent {
 
   meta = { counsumer_id: "7898", consumer_mac: "kjs9s8ss7dd" };
 
-  constructor(private flutterwave: Flutterwave) {}
+  constructor(private flutterwaveService: FlutterwaveService) {}
 
   makePaymentCallback(response: PaymentSuccessResponse): void {
     console.log("Pay", response);
-    this.flutterwave.closePaymentModal(5);
+    this.flutterwaveService.closePaymentModal(5);
   }
   closedPaymentModal(): void {
     console.log("payment is closed");
@@ -157,7 +157,7 @@ Pass in the payment parameters as an object to the component `data` attribute.
 ```typescript
 import { Component, OnInit } from "@angular/core";
 import {
-  Flutterwave,
+  FlutterwaveService,
   InlinePaymentOptions,
   PaymentSuccessResponse,
 } from "flutterwave-angular-v3";
@@ -200,10 +200,10 @@ export class AppComponent {
     callbackContext: this,
   };
 
-  constructor(private flutterwave: Flutterwave) {}
+  constructor(private flutterwaveService: FlutterwaveService) {}
   makePaymentCallback(response: PaymentSuccessResponse): void {
     console.log("Pay", response);
-    this.flutterwave.closePaymentModal(5);
+    this.flutterwaveService.closePaymentModal(5);
   }
   closedPaymentModal(): void {
     console.log("payment is closed");
@@ -224,7 +224,7 @@ Using the Flutterwave service.
 ```typescript
 import { Component } from "@angular/core";
 import {
-  Flutterwave,
+  FlutterwaveService,
   InlinePaymentOptions,
   PaymentSuccessResponse,
 } from "flutterwave-angular-v3";
@@ -265,9 +265,9 @@ export class AppComponent {
     callbackContext: this,
   };
   //Inject the flutterwave service
-  constructor(private flutterwave: Flutterwave) {}
+  constructor(private flutterwaveService: FlutterwaveService) {}
   makePayment() {
-    this.flutterwave.inlinePay(this.paymentData);
+    this.flutterwaveService.inlinePay(this.paymentData);
   }
   makePaymentCallback(response: PaymentSuccessResponse): void {
     console.log("Payment callback", response);
@@ -284,7 +284,7 @@ Async Payment Response.
 
 ```typescript
 import { Component } from "@angular/core";
-import { Flutterwave, AsyncPaymentOptions } from "flutterwave-angular-v3";
+import { FlutterwaveService, AsyncPaymentOptions } from "flutterwave-angular-v3";
 
 @Component({
   selector: "app-root",
@@ -318,12 +318,12 @@ export class AppComponent {
     customizations: this.customizations,
   };
 
-  constructor(private flutterwave: Flutterwave) {}
+  constructor(private flutterwaveService: FlutterwaveService) {}
 
   payViaPromise() {
-    this.flutterwave.asyncInlinePay(this.paymentData).then((response) => {
+    this.flutterwaveService.asyncInlinePay(this.paymentData).then((response) => {
       console.log("Promise Res", response);
-      this.flutterwave.closePaymentModal(5);
+      this.flutterwaveService.closePaymentModal(5);
     });
   }
   generateReference(): string {
@@ -340,7 +340,7 @@ Pass the payment plan ID into your payload to make [recurring payments](https://
 ```typescript
 import { Component, OnInit } from "@angular/core";
 import {
-  Flutterwave,
+  FlutterwaveService,
   InlinePaymentOptions,
   PaymentSuccessResponse,
 } from "flutterwave-angular-v3";
@@ -381,11 +381,11 @@ export class AppComponent {
 
   meta = { counsumer_id: "7898", consumer_mac: "kjs9s8ss7dd" };
 
-  constructor(private flutterwave: Flutterwave) {}
+  constructor(private flutterwaveService: FlutterwaveService) {}
 
   makePaymentCallback(response: PaymentSuccessResponse): void {
     console.log("Pay", response);
-    this.flutterwave.closePaymentModal(5);
+    this.flutterwaveService.closePaymentModal(5);
   }
   closedPaymentModal(): void {
     console.log("payment is closed");
@@ -420,7 +420,7 @@ Read more about our parameters and how they can be used [here](https://developer
 
 ### Methods
 
-Methods provided by Flutterwave service and descriptions:
+Methods provided by FlutterwaveService and descriptions:
 
 | Method Name       | Parameters                                    | Returns | Description                                                                                                                |
 | ----------------- | --------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |

@@ -1,0 +1,15 @@
+.flutterwave-pay-button{
+  background-color: #f5a623;
+  border-radius: 4px;
+  border-color: #f5a623;
+  box-shadow: 0 2px 3px 0 #ccc;
+  color: #fff;
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 14px 22px;
+  text-align: center;
+  text-decoration: none;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
