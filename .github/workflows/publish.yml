@@ -1,15 +1,12 @@
-
 name: Publish changes to Angular package
-
 on:
   release:
     types: [created]
-
 jobs:
   check-readme-and-changelog:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Check for changes in readme and changelog files
@@ -21,7 +18,7 @@ jobs:
             exit 1
           fi
 
-      - name: push build status to slack
+      - name: Push build status to Slack
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
@@ -29,28 +26,30 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
-
   publish:
     needs: check-readme-and-changelog
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: setup node.js environment
+      - name: Setup Node.js environment
         uses: actions/setup-node@v1
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
 
-      - name: install node.js dependencies
+      - name: Install Node.js dependencies
         run: npm ci
 
-      - run: npm publish
+      - name: Publish to NPM
+        run: |
+          cd dist/flutterwave-angular-v3
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
 
-      - name: push build status to slack
+      - name: Push build status to Slack
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
@@ -59,5 +58,3 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         if: always()
-
-

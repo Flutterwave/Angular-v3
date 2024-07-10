@@ -23,5 +23,18 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "module": "fesm2022/flutterwave-angular-v3.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2022": "./esm2022/flutterwave-angular-v3.mjs",
+      "esm": "./esm2022/flutterwave-angular-v3.mjs",
+      "default": "./fesm2022/flutterwave-angular-v3.mjs"
+    }
+  }
 }
