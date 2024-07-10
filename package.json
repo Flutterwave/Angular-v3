@@ -1,6 +1,6 @@
 {
   "name": "flutterwave-angular-v3",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Flutterwave official  Angular library to accept payment via  card , USSD, QrCode etc.",
   "author": "Flutterwave",
   "repository": {
