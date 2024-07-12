@@ -3,8 +3,6 @@
 </p>
 
 # Flutterwave Angular Library
-
-![Node.js Package](https://github.com/Flutterwave/Flutterwave-Angular-v3/workflows/Node.js%20Package/badge.svg)
 ![npm](https://img.shields.io/npm/v/flutterwave-angular-v3)
 ![npm](https://img.shields.io/npm/dt/flutterwave-angular-v3)
 ![NPM](https://img.shields.io/npm/l/flutterwave-angular-v3)
@@ -15,7 +13,7 @@ The Angular SDK helps you create seamless payment experiences in your Angular mo
 
 Available features include:
 
-- Collections: Card, Account, Mobile money, Bank Transfers, USSD, Barter, NQR.
+- Collections: Card, Account, Mobile Money, Bank Transfers, USSD, Barter, NQR.
 - Recurring payments: Tokenization and Subscriptions.
 - Split payments
 
@@ -23,17 +21,18 @@ Available features include:
 
 1. [Requirements](#requirements)
 2. [Installation](#installation)
-3. [Usage](#usage)
-4. [Support](#support)
-5. [Contribution Guidelines](#contribution-guidelines)
-6. [License](#license)
-7. [Changelog](#)
+3. [Initialization](#Initialization)
+4. [Usage](#usage)
+5. [Support](#support)
+6. [Contribution Guidelines](#contribution-guidelines)
+7. [License](#license)
+8. [Changelog](#)
 
 ## Requirements
 
 1. Flutterwave version 3 API keys
 2. Node version >= 14.15.0 and npm >= 6.14.8
-3. Angular version  >= 18
+3. Angular version  >= 18.
 
 ## Installation
 
@@ -44,6 +43,35 @@ $ npm install flutterwave-angular-v3
 # or
 $ yarn add flutterwave-angular-v3
 ```
+
+## Initialization
+
+Import FlutterwaveModule to the app root module
+
+```typescript
+import { FlutterwaveModule } from "flutterwave-angular-v3"
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    FlutterwaveModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+```
+
+> NB: If you experience compilation errors in your app after importing the Flutterwave module, component or service.
+Kindly include the following line in tsconfig.app.json under `compilerOptions` :
+
+```
+paths": { "@angular/*": [ "node_modules/@angular/*" ] }
+```
+
+Then restart server and try again
 
 ## Usage
 
