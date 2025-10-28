@@ -3,8 +3,6 @@
 </p>
 
 # Flutterwave Angular Library
-
-![Node.js Package](https://github.com/Flutterwave/Flutterwave-Angular-v3/workflows/Node.js%20Package/badge.svg)
 ![npm](https://img.shields.io/npm/v/flutterwave-angular-v3)
 ![npm](https://img.shields.io/npm/dt/flutterwave-angular-v3)
 ![NPM](https://img.shields.io/npm/l/flutterwave-angular-v3)
@@ -15,7 +13,7 @@ The Angular SDK helps you create seamless payment experiences in your Angular mo
 
 Available features include:
 
-- Collections: Card, Account, Mobile money, Bank Transfers, USSD, Barter, NQR.
+- Collections: Card, Account, Mobile Money, Bank Transfers, USSD, Barter, NQR.
 - Recurring payments: Tokenization and Subscriptions.
 - Split payments
 
@@ -34,7 +32,7 @@ Available features include:
 
 1. Flutterwave version 3 API keys
 2. Node version >= 14.15.0 and npm >= 6.14.8
-3. Angular version  >= 18
+3. Angular version  >= 18.
 
 ## Installation
 
@@ -43,8 +41,7 @@ Install the SDK
 ```bash
 $ npm install flutterwave-angular-v3
 # or
-$ yarn  add  flutterwave-angular-v3
-
+$ yarn add flutterwave-angular-v3
 ```
 
 ## Initialization
@@ -95,11 +92,12 @@ Pass in payment parameters individually as component attributes.
 import { Component, OnInit } from "@angular/core";
 import {
   FlutterwaveService,
-  InlinePaymentOptions,
+  MakePaymentComponent,
   PaymentSuccessResponse,
 } from "flutterwave-angular-v3";
 @Component({
   selector: "app-root",
+  imports: [MakePaymentComponent],
   template: ` <flutterwave-make-payment
     [public_key]="publicKey"
     amount="10"
@@ -158,12 +156,14 @@ Pass in the payment parameters as an object to the component `data` attribute.
 import { Component, OnInit } from "@angular/core";
 import {
   FlutterwaveService,
+  MakePaymentComponent,
   InlinePaymentOptions,
   PaymentSuccessResponse,
 } from "flutterwave-angular-v3";
 
 @Component({
   selector: "app-root",
+  imports: [MakePaymentComponent],
   template: ` <flutterwave-make-payment
     [data]="paymentData"
   ></flutterwave-make-payment>`,
@@ -341,11 +341,12 @@ Pass the payment plan ID into your payload to make [recurring payments](https://
 import { Component, OnInit } from "@angular/core";
 import {
   FlutterwaveService,
-  InlinePaymentOptions,
+  MakePaymentComponent,
   PaymentSuccessResponse,
 } from "flutterwave-angular-v3";
 @Component({
   selector: "app-root",
+  imports: [MakePaymentComponent],
   template: ` <flutterwave-make-payment
     [public_key]="publicKey"
     amount="10"
