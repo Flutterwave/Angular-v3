@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlutterwaveService } from './flutterwave.service';
-import { ApiTrackingService } from './api-tracking.service';
+// import { ApiTrackingService } from './api-tracking.service';
 
 @NgModule({
   declarations: [],
-  providers: [FlutterwaveService, ApiTrackingService],
+  providers: [FlutterwaveService],
   imports: [
     CommonModule
   ]
